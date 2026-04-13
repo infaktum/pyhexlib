@@ -13,6 +13,8 @@ that can be used with `pygame`.
 
 In short: suitable for games, tile-map editors, simulations, and visualizations that use hex tiles.
 
+![strategic_command.jpg](docs/images/strategic_command.jpg)
+
 ## Main features
 
 - Mathematical operations and coordinate transformations (axial / offset) and neighborhood queries.

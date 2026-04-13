@@ -1,6 +1,9 @@
 import logging
 from typing import Optional, Dict, Any, Tuple
 
+# package version (bumped for PyPI release)
+__version__ = "0.1.0"
+
 from .basic import (
     Orientation,
     Direction,

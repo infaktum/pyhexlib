@@ -1,3 +1,4 @@
 include README.md
 include LICENSE
-include pyhex/py.typed
+# include typed marker from src layout
+include src/pyhex/py.typed
