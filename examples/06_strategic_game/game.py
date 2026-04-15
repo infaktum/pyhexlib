@@ -1,7 +1,7 @@
-from pyhex.hexagons import Hexagon, Direction, HexagonalGrid, rectangle_map
-from pyhex.layers import TokenGridLayer, HexGridManager, OutlineGridLayer, ValueGridLayer, FillGridLayer, \
+from pyhexlib.hexagons import Hexagon, Direction, HexagonalGrid, rectangle_map
+from pyhexlib.layers import TokenGridLayer, HexGridManager, OutlineGridLayer, ValueGridLayer, FillGridLayer, \
     SimpleImageGridLayer, PathGridLayer
-from pyhex.tokens import Token, SimpleToken
+from pyhexlib.tokens import Token, SimpleToken
 
 
 # ------------------------------  DirectionTokens -----------------------------------

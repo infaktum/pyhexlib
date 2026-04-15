@@ -1,9 +1,9 @@
 import pygame
 
-from pyhex.hexagons import Hexagon, Direction, HexagonalGrid, rectangle_map
-from pyhex.layers import TokenGridLayer, HexGridManager, OutlineGridLayer, ValueGridLayer, FillGridLayer, \
+from pyhexlib.hexagons import Hexagon, Direction, HexagonalGrid, rectangle_map
+from pyhexlib.layers import TokenGridLayer, HexGridManager, OutlineGridLayer, ValueGridLayer, FillGridLayer, \
     SimpleImageGridLayer
-from pyhex.tokens import Token, FreeToken, DirectionToken
+from pyhexlib.tokens import Token, FreeToken, DirectionToken
 
 
 # ------------------------------  DirectionToken Fighter -----------------------------------

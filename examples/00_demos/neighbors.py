@@ -2,11 +2,11 @@ import sys
 
 import pygame
 
-import pyhex
-from pyhex.basic import Orientation
-from pyhex.hexagons import HexagonalGrid
-from pyhex.layers import HexGridManager, FillGridLayer, OutlineGridLayer, CoordinateGridLayer
-from pyhex.render import HexGridRenderer
+import pyhexlib
+from pyhexlib.basic import Orientation
+from pyhexlib.hexagons import HexagonalGrid
+from pyhexlib.layers import HexGridManager, FillGridLayer, OutlineGridLayer, CoordinateGridLayer
+from pyhexlib.render import HexGridRenderer
 
 
 # ------------------------------ Event loop and handlers -------------------------------
@@ -73,7 +73,7 @@ if __name__ == "__main__":
 
     pygame.init()
 
-    pyhex.init(orientation=Orientation.POINTY)
+    pyhexlib.init(orientation=Orientation.POINTY)
     pygame.display.set_caption("Test: Negative Coordinates, Neighbors")
 
     grids, renderer = init(ROWS, COLS, 60)

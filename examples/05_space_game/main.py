@@ -1,14 +1,14 @@
+import logging
 import sys
 
 import pygame
-import logging
 
-import pyhex
+import pyhexlib
 from assets import SpaceAssets
 from controller import Controller
 from game import setup
-from pyhex import Orientation
-from pyhex.render import HexGridRenderer
+from pyhexlib import Orientation
+from pyhexlib.render import HexGridRenderer
 
 # ----------------------------------- Initialization -----------------------------------
 
@@ -25,7 +25,7 @@ def init(rows, cols, radius):
                         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
     logging.getLogger("pyhex").setLevel(logging.DEBUG)
 
-    pyhex.init(orientation=orientation, log_level=logging.DEBUG)
+    pyhexlib.init(orientation=orientation, log_level=logging.DEBUG)
     pygame.display.set_mode((1000, 1000))
     info = pygame.display.Info()
     size = info.current_w, info.current_h

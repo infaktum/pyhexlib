@@ -1,8 +1,8 @@
 import pygame
 
-from pyhex import utils
-from pyhex.graphic import Point, Rectangle
-from pyhex.utils import toggle_coordinate_layer, handle_scrolling_event
+from pyhexlib import utils
+from pyhexlib.graphic import Point, Rectangle
+from pyhexlib.utils import toggle_coordinate_layer, handle_scrolling_event
 
 # ------------------------------ Constants -----------------------------------
 

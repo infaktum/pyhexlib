@@ -2,10 +2,10 @@ import sys
 
 import pygame
 
-import pyhex
-from pyhex.hexagons import Orientation, HexagonalGrid
-from pyhex.layers import HexGridManager, FillGridLayer, OutlineGridLayer
-from pyhex.render import HexGridRenderer
+import pyhexlib
+from pyhexlib.hexagons import Orientation, HexagonalGrid
+from pyhexlib.layers import HexGridManager, FillGridLayer, OutlineGridLayer
+from pyhexlib.render import HexGridRenderer
 
 
 # ------------------------------- Game Loop -----------------------------------
@@ -52,7 +52,7 @@ def toggle_color(board: FillGridLayer, rc):
 def init(rows, cols):
     raw_hexagons = [(r, c) for r in range(rows) for c in range(cols)]
 
-    print(pyhex.get_orientation())
+    print(pyhexlib.get_orientation())
     hexagons = HexagonalGrid(raw_hexagons)
 
     grids = HexGridManager(hexagons)
@@ -75,8 +75,8 @@ ROWS, COLS, SIZE = 5, 7, 50
 
 if __name__ == "__main__":
     pygame.init()
-    pyhex.init(orientation=Orientation.FLAT)
-    print(pyhex.get_config())
+    pyhexlib.init(orientation=Orientation.FLAT)
+    print(pyhexlib.get_config())
     pygame.display.set_caption("Simple Game")
     grids = init(ROWS, COLS)
     renderer = HexGridRenderer(grids, SIZE)

@@ -2,9 +2,9 @@ from typing import Dict, Tuple
 
 import pygame
 
-from pyhex.assets import Assets
-from pyhex.graphic import rotate_image_to_direction
-from pyhex.hexagons import Direction
+from pyhexlib.assets import Assets
+from pyhexlib.graphic import rotate_image_to_direction
+from pyhexlib.hexagons import Direction
 
 
 # -------------------------------------------- Assets -------------------------------------------------
@@ -18,7 +18,7 @@ class GameAssets(Assets):
 
         self.shadows = {n: pygame.transform.grayscale(
             pygame.transform.smoothscale(self.get_image(n), (2 * size // 3, 2 * size // 3)))
-                        for n in range(len(self.images))}
+            for n in range(len(self.images))}
 
     def get_shadow(self, index, direction: Direction = Direction.NORTH):
         return rotate_image_to_direction(self.shadows.get(index, None), direction)

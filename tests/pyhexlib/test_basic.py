@@ -1,7 +1,7 @@
 import pytest
 
-import pyhex
-from pyhex.basic import (
+import pyhexlib
+from pyhexlib.basic import (
     Hexagon2,
     Bounds,
     offset_to_axial,
@@ -46,7 +46,7 @@ def test_bounds_properties_and_indexing():
 
 
 def test_coordinate_conversions_and_mappings():
-    pyhex.init(orientation=Orientation.FLAT)
+    pyhexlib.init(orientation=Orientation.FLAT)
     # roundtrip offset <-> axial for a few samples
     samples = [(0, 0), (1, 0), (0, 1), (-2, 3)]
     for row, col in samples:
@@ -68,7 +68,7 @@ def test_coordinate_conversions_and_mappings():
 
 
 def test_neighborhood_basic_and_get_direction_and_distance():
-    pyhex.init(orientation=Orientation.FLAT)
+    pyhexlib.init(orientation=Orientation.FLAT)
     # neighborhood_basic returns 6 offsets for a regular hex
     nb = neighborhood_basic(0, 0)
     assert len(nb) == 6
@@ -84,7 +84,7 @@ def test_neighborhood_basic_and_get_direction_and_distance():
 
 
 def test_dijkstra_and_astar_basic():
-    pyhex.init(orientation=Orientation.FLAT)
+    pyhexlib.init(orientation=Orientation.FLAT)
     # simple straight-line grid of three cells
     hexagons = {(0, 0), (0, 1), (0, 2)}
     # dijkstra should return a path that starts and ends correctly and
@@ -104,4 +104,3 @@ def test_dijkstra_and_astar_basic():
 
     # astar: missing node returns None
     assert astar(hexagons, (0, 0), (10, 10)) is None
-

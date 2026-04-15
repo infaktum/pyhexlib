@@ -1,4 +1,4 @@
-from pyhex.tokens import SimpleToken
+from pyhexlib.tokens import SimpleToken
 
 
 # ------------------------------- GameBoard -----------------------------------

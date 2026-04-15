@@ -1,33 +1,34 @@
 import pygame
 
-from pyhex.graphic import Assets
+from pyhexlib.graphic import Assets
+
 
 # -------------------------------------------- Assets -------------------------------------------------
 
 class GameAssets(Assets):
     def __init__(self, size):
         self.tokens = {
-            0: draw_token(size, (230,230,230)),
+            0: draw_token(size, (230, 230, 230)),
             1: draw_token(size, (30, 30, 30)),
             2: draw_token(size, (180, 180, 180)),
             3: draw_token(size, (80, 80, 80)),
-                      }
+        }
 
 
 def draw_token(size, color):
-    r = int(4 * size//5)
+    r = int(4 * size // 5)
     s = pygame.Surface((r * 2, r * 2), pygame.SRCALPHA)
 
     # Licht-/Materialparameter (einfaches PBR-ähnliches Approximation)
     # Licht kommt leicht von oben (z) und minimal von oben-mitte (y negative)
     Lx, Ly, Lz = 0.0, -0.25, 0.97
     # normalize L
-    llen = (Lx*Lx + Ly*Ly + Lz*Lz) ** 0.5
-    Lx, Ly, Lz = Lx/llen, Ly/llen, Lz/llen
+    llen = (Lx * Lx + Ly * Ly + Lz * Lz) ** 0.5
+    Lx, Ly, Lz = Lx / llen, Ly / llen, Lz / llen
     Vx, Vy, Vz = 0.0, 0.0, 1.0  # Blickrichtung zum Betrachter
     Hx, Hy, Hz = (Lx + Vx), (Ly + Vy), (Lz + Vz)
-    hlen = (Hx*Hx + Hy*Hy + Hz*Hz) ** 0.5
-    Hx, Hy, Hz = Hx/hlen, Hy/hlen, Hz/hlen
+    hlen = (Hx * Hx + Hy * Hy + Hz * Hz) ** 0.5
+    Hx, Hy, Hz = Hx / hlen, Hy / hlen, Hz / hlen
 
     ambient = 0.15
     kd = 0.8  # diffuse
@@ -46,7 +47,7 @@ def draw_token(size, color):
         spec_factor = ks * (max(0.0, nz * Hz) ** shininess)
 
         # Farbe berechnen (Basisfarbe * diffuse + weißes Specular)
-        col = [0,0,0]
+        col = [0, 0, 0]
         for j in range(3):
             diffuse_c = color[j] * diffuse_factor
             spec_c = 255 * spec_factor

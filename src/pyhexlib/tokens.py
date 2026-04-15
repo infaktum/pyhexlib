@@ -25,8 +25,8 @@ from abc import ABC, abstractmethod
 
 import pygame
 
-import pyhex.graphic as g
-from pyhex.hexagons import Direction, Hexagon
+import pyhexlib.graphic as g
+from pyhexlib.hexagons import Direction, Hexagon
 
 
 # ------------------------------ Tokens -----------------------------------

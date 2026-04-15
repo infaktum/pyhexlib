@@ -1,5 +1,4 @@
-from pyhex.grid import TokenGridLayer
-
+from pyhexlib.grid import TokenGridLayer
 
 
 # ------------------------------- GameBoard -----------------------------------
@@ -10,10 +9,11 @@ class GameBoard(TokenGridLayer):
         super().__init__()
         self.assets = assets
         self.marker = None
+
     def get(self, rc):
         return self.hexagons.get_token(rc, None)
 
-    def remove(self,rc):
+    def remove(self, rc):
         del self.hexagons[rc]
 
     def put_marker(self, rc):
@@ -22,7 +22,7 @@ class GameBoard(TokenGridLayer):
     def remove_marker(self):
         self.marker = None
 
-    def check_game_over(self, score,player):
+    def check_game_over(self, score, player):
         if score[player] < 1:
             print(f"Player {1 - player} wins!")
 
@@ -36,4 +36,3 @@ class GameBoard(TokenGridLayer):
                 score[1] += 1
 
         return score
-

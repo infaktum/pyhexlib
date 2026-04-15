@@ -1,8 +1,8 @@
 import pygame
-from pyhex.grid import *
-from pyhex.hexagon import rectangle
+from pyhexlib.grid import *
+from pyhexlib.hexagon import rectangle
 
-from pyhex.graphic import RenderEngine
+from pyhexlib.graphic import RenderEngine
 
 # ----------------------------------- Main function -----------------------------------
 

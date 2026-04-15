@@ -2,9 +2,9 @@ from __future__ import annotations
 
 from typing import List, Tuple
 
-import pyhex
-from pyhex import basic as b
-from pyhex.basic import Direction, Hexagon, Orientation, Neighborhood, Bounds
+import pyhexlib
+from pyhexlib import basic as b
+from pyhexlib.basic import Direction, Hexagon, Orientation, Neighborhood, Bounds
 
 
 # ----------------------------------- Hexagon Generation -----------------------------------
@@ -278,7 +278,7 @@ class HexagonalGrid:
 if __name__ == "__main__":
     # Example usage
 
-    pyhex.init(orientation=Orientation.FLAT)
+    pyhexlib.init(orientation=Orientation.FLAT)
 
     hexagons = [(row, col) for col in range(-10, 10) for row in range(-10, 10)]
 

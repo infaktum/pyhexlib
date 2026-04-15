@@ -48,11 +48,11 @@
 
 from pygame import Surface, Color
 
-import pygui
-import pygui.draw as draw
+import pyguilib
+import pyguilib.draw as draw
 
 
 def rim_decorator(surface: Surface) -> Surface:
-    color = pygui.get_skin().get("color", Color(255, 0, 0))
+    color = pyguilib.get_skin().get("color", Color(255, 0, 0))
     draw.draw_rim(surface, base_color=color, width=5)
     return surface

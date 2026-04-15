@@ -28,7 +28,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List, Tuple, Dict
 
-import pyhex
+import pyhexlib
 
 
 # ------------------------------------ Types and Enums -----------------------------------
@@ -170,12 +170,12 @@ DirectionMapping = Dict[Tuple[int, int], Direction]
 # ----------------------------------- Coordinate Systems -----------------------------------
 
 def offset_to_axial(row: int, col: int) -> Tuple[int, int]:
-    return _offset_to_axial_flat(row, col) if pyhex.is_flat else _offset_to_axial_pointy(
+    return _offset_to_axial_flat(row, col) if pyhexlib.is_flat else _offset_to_axial_pointy(
         row, col)
 
 
 def axial_to_offset(ra: int, qa: int) -> Tuple[int, int]:
-    return _axial_to_offset_flat(ra, qa) if pyhex.is_flat else _axial_to_offset_pointy(ra, qa)
+    return _axial_to_offset_flat(ra, qa) if pyhexlib.is_flat else _axial_to_offset_pointy(ra, qa)
 
 
 # ----------------------------------- Internal specialized methods -----------------------------------
@@ -245,11 +245,11 @@ _direction_mappings: DirectionMapping = \
 # ----------------------------------- Neighborhoods and Directions -----------------------------------
 
 def _nb_dir_mapping(parity: int) -> DirectionMapping:
-    return _direction_mappings[pyhex.get_orientation()][parity]
+    return _direction_mappings[pyhexlib.get_orientation()][parity]
 
 
 def neighborhood_basic(row, col) -> List[tuple[int, int]]:
-    if pyhex.is_flat:
+    if pyhexlib.is_flat:
         return [(row + drow, col + dcol) for drow, dcol in _nb_dir_mapping(col & 1)]
     else:
         return [(row + drow, col + dcol) for drow, dcol in _nb_dir_mapping(row & 1)]
@@ -259,7 +259,7 @@ def neighborhood_basic(row, col) -> List[tuple[int, int]]:
 
 def get_direction(rc1, rc2) -> Direction:
     # parity depends on orientation: FLAT uses column parity, POINTY uses row parity
-    parity = rc1[1] & 1 if pyhex.is_flat else rc1[0] & 1
+    parity = rc1[1] & 1 if pyhexlib.is_flat else rc1[0] & 1
     directions = _nb_dir_mapping(parity)
 
     drow = rc2[0] - rc1[0]
@@ -269,7 +269,7 @@ def get_direction(rc1, rc2) -> Direction:
 
 
 def compute_direction(rc1, rc2):
-    return _compute_direction_flat(rc1, rc2) if pyhex.is_flat else _compute_direction_pointy(rc1, rc2)
+    return _compute_direction_flat(rc1, rc2) if pyhexlib.is_flat else _compute_direction_pointy(rc1, rc2)
 
 
 def _compute_direction_flat(rc1, rc2):
@@ -469,7 +469,7 @@ def astar(hexagons, start, goal, cost_fn=None) -> List[tuple[int, int]] | None:
     if start not in hexagons or goal not in hexagons:
         return None
 
-    prefer_coord = 'row' if pyhex.is_flat else 'col'
+    prefer_coord = 'row' if pyhexlib.is_flat else 'col'
     penalty = 1.0
 
     def _default_cost(rc):

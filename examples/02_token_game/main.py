@@ -2,14 +2,14 @@ import sys
 
 import pygame
 
-import pyhex
+import pyhexlib
 from assets import GameAssets
 from controller import Controller
 from game import Game
-from pyhex import Orientation
-from pyhex.hexagons import rectangle_map, HexagonalGrid
-from pyhex.layers import HexGridManager, FillGridLayer, OutlineGridLayer, TokenGridLayer, SimpleImageGridLayer
-from pyhex.render import HexGridRenderer
+from pyhexlib import Orientation
+from pyhexlib.hexagons import rectangle_map, HexagonalGrid
+from pyhexlib.layers import HexGridManager, FillGridLayer, OutlineGridLayer, TokenGridLayer, SimpleImageGridLayer
+from pyhexlib.render import HexGridRenderer
 
 # ------------------------------- GameBoard -----------------------------------
 
@@ -28,7 +28,7 @@ OFFSET = (0, 20)
 def main():
     pygame.init()
 
-    pyhex.init(orientation=Orientation.FLAT)
+    pyhexlib.init(orientation=Orientation.FLAT)
     pygame.display.set_mode((1000, 1000))
     assets = GameAssets(SIZE)
     board, layers = create_layers(assets)

@@ -1,11 +1,11 @@
 import pygame
-from pyhex.grid import CoordinateGridLayer, HexGridLayers, FillGridLayer, OutlineGridLayer, ImageGridLayer
-from pyhex.hexagon import rectangle, HexType
+from pyhexlib.grid import CoordinateGridLayer, HexGridLayers, FillGridLayer, OutlineGridLayer, ImageGridLayer
+from pyhexlib.hexagon import rectangle, HexType
 
 from assets import GameAssets
 from board import GameBoard
 from controller import Controller
-from pyhex.graphic import RenderEngine
+from pyhexlib.graphic import RenderEngine
 
 # ------------------------------- GameBoard -----------------------------------
 

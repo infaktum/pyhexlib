@@ -21,8 +21,8 @@
 #  SOFTWARE.
 #
 #
-from pyhex import Direction
-from pyhex.tokens import DirectionToken, Token
+from pyhexlib import Direction
+from pyhexlib.tokens import DirectionToken, Token
 
 
 class Plane(DirectionToken):

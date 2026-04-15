@@ -1,6 +1,6 @@
 import pygame
 
-from pyhex.utils import toggle_coordinate_layer, handle_scrolling_event
+from pyhexlib.utils import toggle_coordinate_layer, handle_scrolling_event
 
 # ------------------------------ Constants -----------------------------------
 

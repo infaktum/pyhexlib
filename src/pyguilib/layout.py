@@ -27,9 +27,9 @@ from typing import Dict, List, Optional, Any, Tuple
 
 import pygame
 
-from pygui import Point
-from pygui.components import Component
-from pyhex.graphic import Size
+from pyguilib import Point
+from pyguilib.components import Component
+from pyhexlib.graphic import Size
 
 
 # ------------------------------------------------------------------------------------
@@ -92,7 +92,6 @@ class VerticalLayouter(Layouter):
 
         x = self.margin + border
         y = self.margin + border
-        print(border)
         max_x = 0
 
         for component, _ in components.items():

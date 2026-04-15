@@ -26,12 +26,12 @@ import sys
 
 import pygame
 
-import pyhex
-import pyhex.graphic as g
-from pyhex.basic import Orientation
-from pyhex.hexagons import HexagonalGrid
-from pyhex.layers import HexGridManager, FillGridLayer, OutlineGridLayer, CoordinateGridLayer
-from pyhex.render import HexGridRenderer
+import pyhexlib
+import pyhexlib.graphic as g
+from pyhexlib.basic import Orientation
+from pyhexlib.hexagons import HexagonalGrid
+from pyhexlib.layers import HexGridManager, FillGridLayer, OutlineGridLayer, CoordinateGridLayer
+from pyhexlib.render import HexGridRenderer
 
 
 # ------------------------------ Event loop and handlers -------------------------------
@@ -93,7 +93,7 @@ if __name__ == "__main__":
 
     pygame.init()
 
-    pyhex.init(orientation=Orientation.FLAT)
+    pyhexlib.init(orientation=Orientation.FLAT)
     pygame.display.set_caption("Demo: Scrolling")
 
     grids, renderer = init(ROWS, COLS, SIZE)

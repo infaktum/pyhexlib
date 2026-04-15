@@ -1,7 +1,7 @@
 """Top-level pytest conftest to ensure `src/` is first on sys.path.
 
 Pytest can modify sys.path during collection which may cause the
-`tests/pyhex` package to shadow the real `pyhex` package in `src/pyhex`.
+`tests/pyhexlib` package to shadow the real `pyhexlib` package in `src/pyhexlib`.
 Putting `src` at the front as early as possible prevents that.
 """
 import os
@@ -17,7 +17,7 @@ if os.path.isdir(SRC):
     sys.path.insert(0, SRC)
 
     # Ensure project root is not before src on sys.path to avoid
-    # tests/pyhex shadowing src/pyhex. Move root to the end if present.
+    # tests/pyhexlib shadowing src/pyhexlib. Move root to the end if present.
     if ROOT in sys.path:
         try:
             sys.path.remove(ROOT)
@@ -32,29 +32,31 @@ if os.path.isdir(SRC):
             f.write('sys.path[:8]\n')
             for p in sys.path[:8]:
                 f.write(f"{p}\n")
-            f.write('\nfilesystem check for tests/pyhex and src/pyhex:\n')
-            f.write(str(os.path.isdir(os.path.join(ROOT, 'tests', 'pyhex'))) + '\n')
-            f.write(str(os.path.isdir(os.path.join(ROOT, 'src', 'pyhex'))) + '\n')
+            f.write('\nfilesystem check for tests/pyhexlib and src/pyhexlib:\n')
+            f.write(str(os.path.isdir(os.path.join(ROOT, 'tests', 'pyhexlib'))) + '\n')
+            f.write(str(os.path.isdir(os.path.join(ROOT, 'src', 'pyhexlib'))) + '\n')
             # Try to import the top-level package and log which package is found
             try:
                 import importlib
-                pkg = importlib.import_module('pyhex')
-                f.write('\nimport pyhex -> ' + repr(getattr(pkg, '__file__', None)) + '\n')
-                f.write('pyhex.__path__ = ' + repr(getattr(pkg, '__path__', None)) + '\n')
+
+                pkg = importlib.import_module('pyhexlib')
+                f.write('\nimport pyhexlib -> ' + repr(getattr(pkg, '__file__', None)) + '\n')
+                f.write('pyhexlib.__path__ = ' + repr(getattr(pkg, '__path__', None)) + '\n')
             except Exception as e:
-                f.write('\nimport pyhex failed: ' + repr(e) + '\n')
+                f.write('\nimport pyhexlib failed: ' + repr(e) + '\n')
     except Exception:
         pass
 
-# If the tests are organized under `tests/pyhex` (which makes a package named
-# `pyhex`), pytest will try to import test modules as `pyhex.test_*`. To make
-# those imports resolve while still using the real package in `src/pyhex`, we
-# append the `tests/pyhex` directory to the real package's __path__ so Python
-# will search both locations for submodules named `pyhex.*`.
+# If the tests are organized under `tests/pyhexlib` (which makes a package named
+# `pyhexlib`), pytest will try to import test modules as `pyhexlib.test_*`. To make
+# those imports resolve while still using the real package in `src/pyhexlib`, we
+# append the `tests/pyhexlib` directory to the real package's __path__ so Python
+# will search both locations for submodules named `pyhexlib.*`.
 try:
     import importlib
-    pkg = importlib.import_module('pyhex')
-    tests_pkg = os.path.join(ROOT, 'tests', 'pyhex')
+
+    pkg = importlib.import_module('pyhexlib')
+    tests_pkg = os.path.join(ROOT, 'tests', 'pyhexlib')
     if os.path.isdir(tests_pkg):
         # only append if not already present
         for p in pkg.__path__:
@@ -65,4 +67,3 @@ try:
 except Exception:
     # don't fail test startup for this auxiliary action
     pass
-

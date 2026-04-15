@@ -23,7 +23,7 @@
 #
 import pygame
 
-from pygui.components import VisibleComponent
+from pyguilib.components import VisibleComponent
 
 
 class Window(VisibleComponent):

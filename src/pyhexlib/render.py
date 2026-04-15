@@ -5,18 +5,18 @@ from math import sqrt
 import pygame
 from pygame.font import Font
 
-import pyhex
-from pyhex import graphic as g
-from pyhex.assets import Assets
-from pyhex.graphic import Point, TRANSPARENT
-from pyhex.hexagons import Hexagon
-from pyhex.layers import OutlineGridLayer, FillGridLayer, ImageGridLayer, PathGridLayer, HexGridManager, \
+import pyhexlib
+from pyhexlib import graphic as g
+from pyhexlib.assets import Assets
+from pyhexlib.graphic import Point, TRANSPARENT
+from pyhexlib.hexagons import Hexagon
+from pyhexlib.layers import OutlineGridLayer, FillGridLayer, ImageGridLayer, PathGridLayer, HexGridManager, \
     StyledGridLayer, HexColor, ValueGridLayer, HexGridLayer
-from pyhex.viewport import HexGridViewport, Hexagons
+from pyhexlib.viewport import HexGridViewport, Hexagons
 
 # ---------------------------------------- Logger ------------------------------------------------
 
-LOGGER = pyhex.get_logger(__name__)
+LOGGER = pyhexlib.get_logger(__name__)
 
 
 # ----------------------------------------- HexGridRenderer -----------------------------------------------
@@ -328,7 +328,7 @@ def _render_value_layer(surface, grid: ValueGridLayer, hexagons) -> pygame.Surfa
 
 
 def load_font_from_resources() -> Font:
-    font_font, font_size = pyhex.font['name'], pyhex.font['size']
+    font_font, font_size = pyhexlib.font['name'], pyhexlib.font['size']
     font_file = resources.files("pyhex.fonts").joinpath(font_font)
 
     with resources.as_file(font_file) as font_path:

@@ -25,8 +25,8 @@
 import pygame
 from pygame import Color, Rect, Surface
 
-import pygui
-from pygui.basic import Size, Point
+import pyguilib
+from pyguilib.basic import Size, Point
 
 
 # ------------------------------------------ Component drawing primitives ----------------------------------
@@ -34,7 +34,7 @@ from pygui.basic import Size, Point
 
 def draw_button(size: Size, text: str) -> pygame.Surface:
     surface = pygame.Surface((size.w, size.h))
-    skin = pygui.skin["Button"]
+    skin = pyguilib.skin["Button"]
 
     button_color, border_width = skin["color"], skin["border"]
 
@@ -115,7 +115,6 @@ def draw_rim(surface: pygame.Surface, base_color: Color, width: int = 10) -> pyg
 # ----------------------------------- Windows -----------------------------
 
 def draw_window(size, text, title, btn_text):
-    print("drawing window")
     window = pygame.Surface((size.w, size.h))
     base_color = (200, 200, 200, 0)
     window.fill(base_color)

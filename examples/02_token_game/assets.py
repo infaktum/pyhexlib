@@ -1,6 +1,6 @@
 import pygame
 
-from pyhex.assets import Assets
+from pyhexlib.assets import Assets
 
 
 # -------------------------------------------- Assets -------------------------------------------------

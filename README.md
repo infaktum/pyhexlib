@@ -1,17 +1,15 @@
-# pyhex
+# pyhexlib
 
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
 [![pygame 2](https://img.shields.io/badge/pygame-2-brightgreen)](https://www.pygame.org/news)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![CI](https://github.com/infaktum/pyhex/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/infaktum/pyhex/actions/workflows/ci-tests.yml)
-[![codecov](https://codecov.io/gh/infaktum/pyhex/branch/main/graph/badge.svg)](https://codecov.io/gh/infaktum/pyhex)
+[![CI](https://github.com/infaktum/pyhexlib/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/infaktum/pyhexlib/actions/workflows/ci-tests.yml)
+[![codecov](https://codecov.io/gh/infaktum/pyhexlib/branch/main/graph/badge.svg)](https://codecov.io/gh/infaktum/pyhexlib)
 
-`pyhex` is a small Python library for working with hexagonal grids and simple rendering utilities. It
+`pyhexlib` is a small Python library for working with hexagonal grids and simple rendering utilities. It
 contains logic for creating and manipulating hex grids, low-level drawing helpers, and a lightweight renderer
 that can be used with `pygame`.
-
-In short: suitable for games, tile-map editors, simulations, and visualizations that use hex tiles.
 
 ![strategic_command.jpg](docs/images/strategic_command.jpg)
 
@@ -19,11 +17,12 @@ In short: suitable for games, tile-map editors, simulations, and visualizations 
 
 - Mathematical operations and coordinate transformations (axial / offset) and neighborhood queries.
 - Low-level drawing helpers: `hex_corner`, `hex_corners`, point-in-polygon checks.
-- Layers and rendering API (`pyhex.hexagons.Layer(s)`, `pyhex.renderer.Renderer`) for rendering multiple layers (grid,
+- Layers and rendering API (`pyhexlib.hexagons.Layer(s)`, `pyhexlib.renderer.Renderer`) for rendering multiple layers (
+  grid,
   color map, color layer).
 
-> Note: The README describes the API of the current implementation in `pyhex/graphics.py`, `pyhex/hexagons.py` and
-> `pyhex/renderer.py`.
+> Note: The README describes the API of the current implementation in `pyhexlib/graphics.py`, `pyhexlib/hexagons.py` and
+> `pyhexlib/renderer.py`.
 
 ## Requirements
 
@@ -53,9 +52,9 @@ screen.blit(surface, (0, 0))
 1) Simple hex grid with `HexGridManager` and `HexGridRenderer` (Pygame)
 
 ```python
-from pyhex.hexagons import rectangle_map, HexagonalGrid
-from pyhex.layers import HexGridManager, HexGridLayer
-from pyhex.render import HexGridRenderer
+from pyhexliblib.hexagons import rectangle_map, HexagonalGrid
+from pyhexliblib.layers import HexGridManager, HexGridLayer
+from pyhexliblib.render import HexGridRenderer
 import pygame
 
 pygame.init()
@@ -91,9 +90,9 @@ screen.blit(surface, (0, 0))
 2) Using `HexGridManager`, styled layers and the `HexGridRenderer`
 
 ```python
-from pyhex.hexagons import rectangle_map, HexagonalGrid
-from pyhex.layers import HexGridManager, FillGridLayer, OutlineGridLayer
-from pyhex.render import HexGridRenderer
+from pyhexliblib.hexagons import rectangle_map, HexagonalGrid
+from pyhexliblib.layers import HexGridManager, FillGridLayer, OutlineGridLayer
+from pyhexliblib.render import HexGridRenderer
 import pygame
 
 pygame.init()
@@ -128,35 +127,35 @@ pygame.display.flip()
 - hex_corners(center, size, pointy=False): returns 6 corners
 - point_in_polygon(x, y, poly): point-in-polygon test
 
-These helpers live in `pyhex.graphics` and `pyhex.hexagons`.
+These helpers live in `pyhexlib.graphics` and `pyhexlib.hexagons`.
 
 ## Logging
 
-pyhex follows the common convention for libraries: it does not configure output handlers itself and by default
+pyhexlib follows the common convention for libraries: it does not configure output handlers itself and by default
 attaches a `logging.NullHandler` to the package logger. This avoids producing log messages unless the calling
 application configures logging. That gives applications full control over formatting, level and destination of logs.
 
 Recommendations for applications:
 
 - Configure logging in the application (for example in `main.py`) with `logging.basicConfig()` or by adding custom
-  handlers/formatters to `logging.getLogger('pyhex')`.
-- To see pyhex internal debug logs, set the level for the `pyhex` logger to `DEBUG`.
+  handlers/formatters to `logging.getLogger('pyhexlib')`.
+- To see pyhexlib internal debug logs, set the level for the `pyhexlib` logger to `DEBUG`.
 
 Example (Python):
 
 ```python
 import logging
-import pyhex
+import pyhexliblib
 
 # Application-level logging configuration
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 
-# Make pyhex logs more verbose when needed
-logging.getLogger('pyhex').setLevel(logging.DEBUG)
+# Make pyhexlib logs more verbose when needed
+logging.getLogger('pyhexlib').setLevel(logging.DEBUG)
 
-# Optionally initialize pyhex with the same level
-pyhex.init(orientation=pyhex.Orientation.FLAT, log_level=logging.DEBUG)
+# Optionally initialize pyhexlib with the same level
+pyhexliblib.init(orientation=pyhexliblib.Orientation.FLAT, log_level=logging.DEBUG)
 ```
 
 PowerShell (setup & run):
@@ -173,20 +172,20 @@ produces sensible output.
 
 ## Module / API overview
 
-(pyhex currently contains three primary files in the package folder — here are the most important available
+(pyhexlib currently contains three primary files in the package folder — here are the most important available
 classes/functions)
 
-- pyhex.graphics
+- pyhexlib.graphics
     - Hex: representation of a cell (row, col, center, size, edges, fill_color)
     - HexGrid(rows, cols, hex_size, line_color, line_width, fill_color): grid with a `draw(surface)` method;
       conversion methods `xy_to_rq`, `rq_to_xy`, `get_hex_at`, `neighbors`, `distance`.
     - Helper functions: `hex_corner`, `hex_corners`, `point_in_polygon`, `axial_to_offset`, `offset_to_axial`.
 
-- pyhex.hexagons
+- pyhexlib.hexagons
     - Hexagon / Hexagons: alternative data structures (similar to graphics).
     - Layer, GridLayer, ColorLayer, ColorMapLayer, Layers: simple layer objects for storing color/display properties.
 
-- pyhex.renderer
+- pyhexlib.renderer
     - Renderer(layers, hex_size): creates an internal hex layout and provides `render(surface)` as well as
       `render_layer`, `render_grid` and `render_color`.
 

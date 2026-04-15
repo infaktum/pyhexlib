@@ -26,15 +26,15 @@ from typing import Callable, Optional, TypeAlias
 import pygame
 from pygame import Surface, Vector2
 
-import pygui
-from pygui.basic import Point, Transparent
-from pygui.components import VisibleComponent, Overlay, Rim, Button, Component, Image
-from pygui.layout import Container
-from pygui.widgets import Window
+import pyguilib
+from pyguilib.basic import Point, Transparent
+from pyguilib.components import VisibleComponent, Overlay, Rim, Button, Component, Image
+from pyguilib.layout import Container
+from pyguilib.widgets import Window
 
 # ---------------------------------------- Logger ------------------------------------------------
 
-LOGGER = pygui.get_logger(__name__)
+LOGGER = pyguilib.get_logger(__name__)
 
 # ---------------------------------- The GUI renderer  ----------------------------------
 
@@ -55,10 +55,6 @@ class GuiRenderer:
         }
 
     def render(self, component, pos: Point = Point(0, 0), offset: Point = Point(0, 0)) -> Surface:
-        # if not component.dirty:
-        #    return self.surface
-
-        print(component)
         if isinstance(component, Container) and component.visible:  # Recursion over container content
             self.render_container(component, pos)
 
@@ -133,7 +129,7 @@ class GuiRenderer:
 
 def _render_overlay(overlay: Overlay):
     surface = pygame.Surface(overlay.size, flags=pygame.SRCALPHA)
-    base_color = pygui.skin["color"]
+    base_color = pyguilib.skin["color"]
     surface.fill(base_color)
     for window in overlay.windows:
         pygame.draw.rect(surface, Transparent, window)
@@ -142,10 +138,10 @@ def _render_overlay(overlay: Overlay):
 
 def _render_rim(rim: Rim, transparent: bool = False):
     surface = pygame.Surface(rim.size, flags=pygame.SRCALPHA)
-    base_color = pygui.skin["color"]
+    base_color = pyguilib.skin["color"]
     if transparent:
         base_color[3] = 0
-    pygui.draw.draw_rim(surface, base_color=base_color, width=5)
+    pyguilib.draw.draw_rim(surface, base_color=base_color, width=5)
     return surface
 
 
@@ -154,8 +150,8 @@ def _render_image(image: Image):
 
 
 def _render_button(button: Button):
-    return pygui.draw.draw_button(size=button.size, text=button.text)
+    return pyguilib.draw.draw_button(size=button.size, text=button.text)
 
 
 def _render_window(window: Window):
-    return pygui.draw.draw_window(size=window.size, text=window.text, title=window.title, btn_text=window.btn_ok)
+    return pyguilib.draw.draw_window(size=window.size, text=window.text, title=window.title, btn_text=window.btn_ok)

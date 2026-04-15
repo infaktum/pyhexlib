@@ -3,15 +3,15 @@ import sys
 import pygame
 from pygame import Color
 
-import pygui
-import pyhex
+import pyguilib
+import pyhexlib
 from assets import GameAssets as Assets
 from controller import Controller
 from game import setup
 from game_gui import map_window
-from pyhex import Orientation
-from pyhex.render import HexGridRenderer
-from pyhex.utils import outline_layer_imprinted_renderer
+from pyhexlib import Orientation
+from pyhexlib.render import HexGridRenderer
+from pyhexlib.utils import outline_layer_imprinted_renderer
 
 # ----------------------------------- Initialization -----------------------------------
 
@@ -23,7 +23,7 @@ orientation, default_angle = Orientation.FLAT, 0
 
 def init(rows, cols, radius):
     pygame.init()
-    pyhex.init(orientation=orientation, scale=(1, 0.8), log_level="INFO")
+    pyhexlib.init(orientation=orientation, scale=(1, 0.8), log_level="INFO")
     pygame.display.set_mode((1600, 1067), pygame.SRCALPHA)
     # screen = pygame.display.set_mode((0, 0), pygame.FULLSCREEN)
     assets = Assets(size=radius, default_angle=default_angle)
@@ -75,8 +75,8 @@ military_skin = {
 }
 
 if __name__ == "__main__":
-    pygui.init(skin=military_skin)
+    pyguilib.init(skin=military_skin)
     controller, renderer, screen, gui = init(25, 30, 40)
-    gui_renderer = pygui.render.GuiRenderer(screen)
+    gui_renderer = pyguilib.render.GuiRenderer(screen)
     while True:
         run(screen, controller, renderer, gui_renderer)

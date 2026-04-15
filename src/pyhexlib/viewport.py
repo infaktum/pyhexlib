@@ -24,15 +24,15 @@
 from math import sqrt
 from typing import Any, Dict
 
-import pyhex
-import pyhex.graphic as g
-from pyhex.basic import Hexagon, Bounds
-from pyhex.graphic import Point
-from pyhex.hexagons import HexagonalGrid
+import pyhexlib
+import pyhexlib.graphic as g
+from pyhexlib.basic import Hexagon, Bounds
+from pyhexlib.graphic import Point
+from pyhexlib.hexagons import HexagonalGrid
 
 # ---------------------------------------- Logger ------------------------------------------------
 
-LOGGER = pyhex.get_logger(__name__)
+LOGGER = pyhexlib.get_logger(__name__)
 
 
 # ----------------------------------------- HexGridViewport -----------------------------------------------

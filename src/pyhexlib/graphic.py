@@ -27,10 +27,10 @@ from math import pi, cos, sin, sqrt, atan2
 import pygame
 from pygame import Color
 
-import pyhex
-import pyhex.basic as b
-from pyhex.basic import Orientation, Direction
-from pyhex.hexagons import Hexagon
+import pyhexlib
+import pyhexlib.basic as b
+from pyhexlib.basic import Orientation, Direction
+from pyhexlib.hexagons import Hexagon
 
 # ----------------------------------- Basic Types -----------------------------------
 
@@ -48,17 +48,17 @@ TRANSPARENT = Color(0, 0, 0, 0)
 # ----------------------------------- Hexagon Geometry -----------------------------------
 
 def hex_corners(center: Point, radius: int) -> list[Point]:
-    return hex_corners_flat(center, radius) if pyhex.is_flat else hex_corners_pointy(center, radius)
+    return hex_corners_flat(center, radius) if pyhexlib.is_flat else hex_corners_pointy(center, radius)
 
 
 def hex_dimensions(radius: int) -> tuple[float, int, int]:
-    return _hex_dimensions_flat(radius) if pyhex.is_flat else _hex_dimensions_pointy(radius)
+    return _hex_dimensions_flat(radius) if pyhexlib.is_flat else _hex_dimensions_pointy(radius)
 
 
 # ----------------------------------- Screen Size Calculation -----------------------------------
 
 def compute_screen_size(rows: int, cols: int, radius: int) -> Size:
-    return _screen_size_flat(rows, cols, radius) if pyhex.is_flat else _screen_size_pointy(rows, cols, radius)
+    return _screen_size_flat(rows, cols, radius) if pyhexlib.is_flat else _screen_size_pointy(rows, cols, radius)
 
 
 def compute_viewport_bounds(screen_size: Size, radius: int, topleft: Hexagon) -> b.Bounds:
@@ -68,7 +68,7 @@ def compute_viewport_bounds(screen_size: Size, radius: int, topleft: Hexagon) ->
 # ----------------------------------- Pixel to Hex Conversion -----------------------------------
 
 def xy_to_rc(x, y, radius: int) -> Hexagon:
-    return xy_to_rc_flat(x, y, radius) if pyhex.is_flat else xy_to_rc_pointy(x, y, radius)
+    return xy_to_rc_flat(x, y, radius) if pyhexlib.is_flat else xy_to_rc_pointy(x, y, radius)
 
 
 # ----------------------------------- Internal methods -----------------------------------
@@ -79,8 +79,8 @@ def hex_corner_with_offset(center: Point, size: int, i: int, angle_offset) -> Po
 
     angle_deg = 60 * i + angle_offset
     angle_rad = pi / 180 * angle_deg
-    x = center.x + size * cos(angle_rad) * pyhex.sx
-    y = center.y + size * sin(angle_rad) * pyhex.sy
+    x = center.x + size * cos(angle_rad) * pyhexlib.sx
+    y = center.y + size * sin(angle_rad) * pyhexlib.sy
     return Point(round(x), round(y))
 
 
@@ -95,7 +95,7 @@ def hex_corners_flat(center: Point, size: int) -> list[Point]:
 # --------------------------------------------------------------------------------------
 
 def hex_center(r, c, x_dist, y_dist, offset, inner_radius, radius: int) -> Point:
-    if pyhex.is_flat:
+    if pyhexlib.is_flat:
         return hex_center_flat(r, c, x_dist, y_dist, offset, inner_radius, radius)
     else:
         return hex_center_pointy(r, c, x_dist, y_dist, offset, inner_radius, radius)
@@ -116,7 +116,7 @@ def hex_center_pointy(r, c, x_dist, y_dist, offset, inner_radius, radius):
 def compute_offset(r, c, x_dist, y_dist, offset, inner_radius, radius) -> Point:
     """Compute the pixel offset to left top corner the viewport around the origin hex."""
     origin_center = hex_center(r, c, x_dist, y_dist, offset, inner_radius, radius)
-    if pyhex.is_flat:
+    if pyhexlib.is_flat:
         offset = origin_center - Point(radius, y_dist // 2)
     else:
         offset = origin_center - Point(x_dist // 2, radius)
@@ -131,13 +131,13 @@ def compute_area(top, left, rows, cols, x_dist, y_dist) -> Rectangle:
 
 def _hex_dimensions_flat(radius: int) -> tuple[float, int, int]:
     inner_radius = sqrt(3) * radius / 2
-    x_dist, y_dist = round(3 * radius // 2 * pyhex.sx), round(2 * inner_radius * pyhex.sy)
+    x_dist, y_dist = round(3 * radius // 2 * pyhexlib.sx), round(2 * inner_radius * pyhexlib.sy)
     return inner_radius, x_dist, y_dist
 
 
 def _hex_dimensions_pointy(radius: int) -> tuple[float, int, int]:
     inner_radius = sqrt(3) * radius / 2
-    x_dist, y_dist = round(2 * inner_radius * pyhex.sx), round(3 * radius // 2 * pyhex.sy)
+    x_dist, y_dist = round(2 * inner_radius * pyhexlib.sx), round(3 * radius // 2 * pyhexlib.sy)
     return inner_radius, x_dist, y_dist
 
 
@@ -168,13 +168,13 @@ ANGLES = {
 
 
 def direction_to_angle(direction: Direction) -> int:
-    angle = ANGLES[pyhex.get_orientation()].get(direction, None)
+    angle = ANGLES[pyhexlib.get_orientation()].get(direction, None)
     return angle
 
 
 def angle_to_direction(angle: int) -> Direction:
     angle = angle % 360
-    mapping = ANGLES[pyhex.get_orientation()]
+    mapping = ANGLES[pyhexlib.get_orientation()]
     best_dir = None
     best_diff = 360.0
     for direction, dir_angle in mapping.items():
@@ -243,7 +243,7 @@ def compute_direction(p1, p2):
     r2, c2 = to_rc(p2)
     d = (r2 - r1, c2 - c1)
 
-    parity = c1 & 1 if pyhex.is_flat else r1 & 1
+    parity = c1 & 1 if pyhexlib.is_flat else r1 & 1
 
     mapping = b._nb_dir_mapping(parity)
 
@@ -254,7 +254,7 @@ def compute_angle(start: Point, target: Point) -> int:
     dx, dy = target - start
     radians = atan2(dy, dx)
     degrees = - radians * 180 / pi  # absolute angle from to positive x-axis (math standard) to clockwise angle from positive x-axis (pygame standard)
-    if pyhex.is_flat:
+    if pyhexlib.is_flat:
         degrees -= 90  # adjust so that 0° points to the top (NORTH)
     return round((degrees + 360) % 360)
 
@@ -271,17 +271,9 @@ def draw_centered(surface: pygame.Surface, image: pygame.Surface, position: tupl
 # ------------------------------ Rotation Helpers -----------------------------------
 
 def rotate_image_to_direction(image, direction: Direction):
-    angle = ANGLES[pyhex.get_orientation()].get(direction, 0)
+    angle = ANGLES[pyhexlib.get_orientation()].get(direction, 0)
     return pygame.transform.rotate(image, angle)
 
 
 def rotate_image(image, angle: int = 0):
     return pygame.transform.rotate(image, angle)
-
-
-# ----------------------------------- Main function -----------------------------------
-
-if __name__ == "__main__":
-    print(compute_direction((0, 0), (1, 0)))  # Should be direction 3 for FLAT-topped
-    print(compute_direction((0, 0), (0, 1)))  # Should be direction 2 for FLAT-topped
-    print(compute_direction((0, 0), (-1, -1)))  # Should be direction 5 for FLAT-topped

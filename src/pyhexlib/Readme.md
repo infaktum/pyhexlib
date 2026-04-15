@@ -60,18 +60,18 @@ rendert (Pygame):
 ```python
 import pygame
 import logging
-import pyhex
-from pyhex.hexagons import HexagonalGrid, rectangle_map
-from pyhex.layers import HexGridManager, FillGridLayer, OutlineGridLayer, TokenGridLayer
-from pyhex.render import HexGridRenderer
-from pyhex import Orientation
+import pyhexlib
+from pyhexlib.hexagons import HexagonalGrid, rectangle_map
+from pyhexlib.layers import HexGridManager, FillGridLayer, OutlineGridLayer, TokenGridLayer
+from pyhexlib.render import HexGridRenderer
+from pyhexlib import Orientation
 
 logging.basicConfig(level=logging.INFO,
                     format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
 logging.getLogger('pyhex').setLevel(logging.DEBUG)
 
 pygame.init()
-pyhex.init(orientation=Orientation.FLAT, log_level=logging.DEBUG)
+pyhexlib.init(orientation=Orientation.FLAT, log_level=logging.DEBUG)
 
 # Erzeuge ein Rechteckgitter 7x10
 hexes = rectangle_map(7, 10)

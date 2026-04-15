@@ -21,20 +21,9 @@
 #  SOFTWARE.
 #
 #
-from pyhex.graphic import rotate_image
+from pyguilib.layout import Container
 
 
-# ------------------------------ Assets -----------------------------------
-
-class Assets:
-    def __init__(self, size: int, default_angle: int = None) -> None:
-        self.size = size
-        self.background = None
-        self.default_angle = default_angle
-        self.images = {}
-
-    def get_image(self, index, angle=None):
-        if angle is None:
-            angle = self.default_angle
-
-        return rotate_image(self.images.get(index, angle), angle) if angle else self.images.get(index, angle)
+class Gui(Container):
+    def __init__(self, size):
+        super().__init__(_id="gui", size=size)

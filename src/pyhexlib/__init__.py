@@ -28,17 +28,17 @@ _config: Dict[str, Any] = {}
 # ------------------------------- Logging ---------------------------------------
 
 
-_pyhex_logger = logging.getLogger("pyhex")
+_pyhexlib_logger = logging.getLogger("pyhexlib")
 # Libraries should not configure I/O handlers by default. Attach a NullHandler
 # so that logging calls do nothing unless the application configures logging.
-if not _pyhex_logger.handlers:
-    _pyhex_logger.addHandler(logging.NullHandler())
+if not _pyhexlib_logger.handlers:
+    _pyhexlib_logger.addHandler(logging.NullHandler())
 
 
 def get_logger(name: str):
-    if isinstance(name, str) and name.startswith("pyhex"):
+    if isinstance(name, str) and name.startswith("pyhexlib"):
         return logging.getLogger(name)
-    return logging.getLogger(f"pyhex.{name}")
+    return logging.getLogger(f"pyhexlib.{name}")
 
 
 # ------------------------------- Standard font -----------------------------
@@ -61,12 +61,12 @@ def init(settings: Optional[Dict[str, Any]] = None,
     cfg = {"orientation": orientation, "scale": scale, **settings}
 
     if log_level is not None:
-        _pyhex_logger.setLevel(log_level)
+        _pyhexlib_logger.setLevel(log_level)
         cfg["log_level"] = log_level
 
     _config = cfg
     _initialized = True
-    logging.getLogger(__name__).debug("pyhex initialized: %s", _config)
+    logging.getLogger(__name__).debug("pyhexlib initialized: %s", _config)
     return _config
 
 
@@ -124,7 +124,7 @@ def __getattr__(name: str):
 
 
 def __dir__() -> list:
-    # include the dynamic convenience attributes in dir(pyhex)
+    # include the dynamic convenience attributes in dir(pyhexlib)
     names = list(globals().keys())
     names.extend(["sx", "sy", "is_flat", "is_pointy"])
     return sorted(set(names))

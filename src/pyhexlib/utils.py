@@ -25,8 +25,8 @@ from typing import Callable
 
 import pygame
 
-from pyhex.layers import HexGridManager, CoordinateGridLayer, HexColor, OutlineGridLayer
-from pyhex.render import HexGridRenderer
+from pyhexlib.layers import HexGridManager, CoordinateGridLayer, HexColor, OutlineGridLayer
+from pyhexlib.render import HexGridRenderer
 
 
 # ------------------------------ Coordinate Grid Toggle -----------------------------------
@@ -123,8 +123,6 @@ def shadow_image(surface: pygame.Surface, shadow_color: HexColor = (0, 0, 0), al
 
 def _render_outline_layer_imprinted(surface, grid: OutlineGridLayer, hexagons, color_dark: HexColor,
                                     color_light: HexColor) -> pygame.Surface:
-    # print(f'Rendering outline grid {grid.id}: default color={color}, width={width}')
-
     for h in hexagons:
         pygame.draw.polygon(surface, color_dark, hexagons.edges(h), 2)
         edges = [(edge[0] + 1, edge[1] + 2) for edge in hexagons.edges(h)[3:]]

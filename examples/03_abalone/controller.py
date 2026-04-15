@@ -1,6 +1,6 @@
 import pygame
-from pyhex.grid import CoordinateGridLayer
-from pyhex.hexagon import neighbors, near_hexagons
+from pyhexlib.grid import CoordinateGridLayer
+from pyhexlib.hexagon import neighbors, near_hexagons
 
 # ------------------------------ Constants -----------------------------------
 

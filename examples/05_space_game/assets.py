@@ -2,9 +2,9 @@ from typing import Dict, Tuple
 
 import pygame
 
-import pyhex
-from pyhex.assets import Assets
-from pyhex.basic import Orientation
+import pyhexlib
+from pyhexlib.assets import Assets
+from pyhexlib.basic import Orientation
 
 
 # -------------------------------------------- Assets -------------------------------------------------
@@ -59,7 +59,7 @@ WINDOW_SIZE = 400, 400
 
 def main():
     pygame.init()
-    pyhex.init(orientation=Orientation.POINTY)
+    pyhexlib.init(orientation=Orientation.POINTY)
     screen = pygame.display.set_mode(WINDOW_SIZE)
     pygame.display.set_caption("Assets Preview")
 

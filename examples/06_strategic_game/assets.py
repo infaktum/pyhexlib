@@ -2,12 +2,12 @@ from typing import Dict, Tuple
 
 import pygame
 
-import pyhex
+import pyhexlib
 from game_gui import create_gui
-from pygui import Size
-from pyhex.assets import Assets
-from pyhex.basic import Orientation
-from pyhex.utils import round_edges
+from pyguilib import Size
+from pyhexlib.assets import Assets
+from pyhexlib.basic import Orientation
+from pyhexlib.utils import round_edges
 
 COUNTRIES = ["US", "Axis"]  # ,"UK"]
 UNIT_TYPES = ["Infantry", "Armor", "Artillery", "Airborne", "Navy", "AirForce"]
@@ -78,7 +78,7 @@ WINDOW_SIZE = 600, 400
 
 def main():
     pygame.init()
-    pyhex.init(orientation=Orientation.POINTY)
+    pyhexlib.init(orientation=Orientation.POINTY)
     screen = pygame.display.set_mode(WINDOW_SIZE)
     pygame.display.set_caption("Assets Preview")
 

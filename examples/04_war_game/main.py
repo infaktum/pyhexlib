@@ -1,17 +1,17 @@
 import logging
 
 import pygame
+from pyhexlib.palette import COLOR_WATER
 
-import pyhex
+import pyhexlib
 from assets import GameAssets
 from controller import Controller
 from game import GameBoard
-from pyhex import Orientation
-from pyhex.hexagons import HexagonalGrid
-from pyhex.layers import ValueGridLayer, HexGridManager, FillGridLayer, PathGridLayer, \
+from pyhexlib import Orientation
+from pyhexlib.hexagons import HexagonalGrid
+from pyhexlib.layers import ValueGridLayer, HexGridManager, FillGridLayer, PathGridLayer, \
     OutlineGridLayer, TokenGridLayer
-from pyhex.palette import COLOR_WATER
-from pyhex.render import HexGridRenderer
+from pyhexlib.render import HexGridRenderer
 
 COLOR_OLIVE = (75, 87, 62)
 COLOR_MOUNTAINS = {"dark": (70, 60, 50), "normal": (120, 110, 100), "light": (200, 190, 180)}
@@ -37,7 +37,7 @@ def main():
                         format="%(asctime)s [%(levelname)s] %(name)s: %(message)s")
     logging.getLogger("pyhex").setLevel(logging.DEBUG)
 
-    pyhex.init(orientation=orientation, log_level=logging.DEBUG)
+    pyhexlib.init(orientation=orientation, log_level=logging.DEBUG)
     pygame.display.set_caption("Wargame")
 
     pygame.display.set_mode((1000, 1000))

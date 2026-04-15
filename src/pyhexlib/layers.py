@@ -28,11 +28,11 @@ from typing import List, TypeAlias, Tuple
 
 import pygame
 
-from pyhex.basic import AxialCoordinate, Direction, Hexagon
-from pyhex.basic import axial_coordinates
-from pyhex.graphic import Point, Offset
-from pyhex.hexagons import HexagonalGrid
-from pyhex.tokens import Token
+from pyhexlib.basic import AxialCoordinate, Direction, Hexagon
+from pyhexlib.basic import axial_coordinates
+from pyhexlib.graphic import Point, Offset
+from pyhexlib.hexagons import HexagonalGrid
+from pyhexlib.tokens import Token
 
 __all__ = ["Border", "HexColor", "StyledGridLayer", "AxialCoordinateHexGridLayer", "OutlineGridLayer",
            "FillGridLayer", "TextGridLayer", "CoordinateGridLayer", "ImageGridLayer",

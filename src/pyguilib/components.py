@@ -2,10 +2,10 @@ from abc import ABC
 
 import pygame
 
-import pygui
-import pygui.draw
-from pygui import Size
-from pyhex.graphic import Rectangle
+import pyguilib
+import pyguilib.draw
+from pyguilib import Size
+from pyhexlib.graphic import Rectangle
 
 
 def rimmed(cls):
@@ -15,7 +15,6 @@ def rimmed(cls):
     orig_draw = getattr(cls, 'draw', None)
 
     def draw(self, *args, **kwargs):
-        print("rimmed")
         if orig_draw:
             return orig_draw(self, *args, **kwargs)
 
@@ -145,7 +144,7 @@ class Button(VisibleComponent):
         self.text = text
         self.state = False
 
-        self.image = pygui.draw.draw_button(size=size, text=text)
+        self.image = pyguilib.draw.draw_button(size=size, text=text)
 
     def __repr__(self) -> str:
         """Return a developer representation of the Button.
