@@ -31,7 +31,7 @@ jobs:
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          python -m pip install sphinx sphinx_rtd_theme
+          python -m pip install sphinx sphinx_rtd_theme myst-parser
 
       - name: Generate API docs with sphinx-apidoc (if modules exist)
         run: |
@@ -42,6 +42,11 @@ jobs:
           if [ -d src/pyguilib ]; then
             sphinx-apidoc -o docs/api src/pyguilib --force --separate --module-first || true
           fi
+
+      - name: Convert README and copy images (Python)
+        run: |
+          set -e
+          python3 scripts/generate_docs_readme.py --src README.md --dest docs/README.md
 
       - name: Build Sphinx HTML
         run: |
@@ -61,6 +66,12 @@ jobs:
         with:
           path: docs/_build/html
 
+  deploy:
+    environment: github-pages
+    needs: build
+
+    runs-on: ubuntu-latest
+    steps:
       - name: Deploy to GitHub Pages
         uses: actions/deploy-pages@v4
 

@@ -224,3 +224,5 @@ __marimo__/
 /env.py
 /backup/
 
+/docs/api/
+/docs/_static/

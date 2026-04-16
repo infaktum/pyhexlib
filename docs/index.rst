@@ -1,14 +1,17 @@
-Welcome to pyhex's documentation!
-=================================
+Documentation of PyHexLib
+=========================
 
 .. toctree::
    :maxdepth: 2
 
+   README
    api/modules
+
+
 
 Introduction
 ------------
 
-This documentation exposes the public API of the project using Sphinx
-autodoc and Napoleon (Google/NumPy style docstrings supported).
+`pyhexlib` is a small Python library for working with hexagonal grids and simple rendering utilities. It contains logic for creating and manipulating hex grids, low-level drawing helpers, and a lightweight renderer that can be used with `pygame`.
+
 

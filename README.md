@@ -1,4 +1,4 @@
-# pyhexlib
+# PyHexLib - A library for Hexagonal Grids in Python
 
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
 [![pygame 2](https://img.shields.io/badge/pygame-2-brightgreen)](https://www.pygame.org/news)
@@ -52,9 +52,9 @@ screen.blit(surface, (0, 0))
 1) Simple hex grid with `HexGridManager` and `HexGridRenderer` (Pygame)
 
 ```python
-from pyhexliblib.hexagons import rectangle_map, HexagonalGrid
-from pyhexliblib.layers import HexGridManager, HexGridLayer
-from pyhexliblib.render import HexGridRenderer
+from pyhexlib.hexagons import rectangle_map, HexagonalGrid
+from pyhexlib.layers import HexGridManager, HexGridLayer
+from pyhexlib.render import HexGridRenderer
 import pygame
 
 pygame.init()
@@ -90,9 +90,9 @@ screen.blit(surface, (0, 0))
 2) Using `HexGridManager`, styled layers and the `HexGridRenderer`
 
 ```python
-from pyhexliblib.hexagons import rectangle_map, HexagonalGrid
-from pyhexliblib.layers import HexGridManager, FillGridLayer, OutlineGridLayer
-from pyhexliblib.render import HexGridRenderer
+from pyhexlib.hexagons import rectangle_map, HexagonalGrid
+from pyhexlib.layers import HexGridManager, FillGridLayer, OutlineGridLayer
+from pyhexlib.render import HexGridRenderer
 import pygame
 
 pygame.init()
@@ -145,7 +145,7 @@ Example (Python):
 
 ```python
 import logging
-import pyhexliblib
+import pyhexlib
 
 # Application-level logging configuration
 logging.basicConfig(level=logging.INFO,
@@ -155,7 +155,7 @@ logging.basicConfig(level=logging.INFO,
 logging.getLogger('pyhexlib').setLevel(logging.DEBUG)
 
 # Optionally initialize pyhexlib with the same level
-pyhexliblib.init(orientation=pyhexliblib.Orientation.FLAT, log_level=logging.DEBUG)
+pyhexlib.init(orientation=pyhexlib.Orientation.FLAT, log_level=logging.DEBUG)
 ```
 
 PowerShell (setup & run):
