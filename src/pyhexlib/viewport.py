@@ -42,55 +42,6 @@ class Viewport(Bounds):
         super().__init__(*bounds)
         self.outer_bounds = outer_bounds
 
-    # ------------------------- Properties for viewport configuration -------------------------------
-
-    @property
-    def origin(self) -> Hexagon:
-        """Return the current origin hex for rendering."""
-        return self.topleft
-
-    @origin.setter
-    def origin(self, origin: Hexagon) -> None:
-        bounds = Bounds(origin.row, origin.col, origin.row + self.rows, origin.col + self.cols)
-        self.bounds = self.adjust_bounds(bounds)
-        self.hexagons = self._compute_hexagons()
-
-    def adjust_bounds(self, bounds: Bounds) -> Bounds:
-        # Ensure the viewport origin stays within the grid bounds.
-        # `bounds` parameter contains a requested topleft (r_min, c_min) and an
-        # implied size (we treat bottom/right as origin + rows/cols). The
-        # grid bounds give the allowable area for the viewport origin.
-        top, left, bottom, right = self.hexagonal_grid.bounds
-
-        r_min, c_min, r_max, c_max = bounds
-
-        # Compute the maximum allowed origin so that origin + (rows, cols)
-        # does not exceed the grid's bottom/right. We use max(..., top)
-        # to handle the case where the grid is smaller than the viewport.
-        max_origin_row = max(top, bottom - self.rows)
-        max_origin_col = max(left, right - self.cols)
-
-        # Clamp requested origin to [top..max_origin_row] and [left..max_origin_col]
-        r_min_temp = min(max(r_min, top), max_origin_row)
-        c_min_temp = min(max(c_min, left), max_origin_col)
-
-        # Set the adjusted origin and corresponding bounds (origin + size)
-        self._origin = Hexagon(r_min_temp, c_min_temp)
-        self.bounds = Bounds(r_min_temp, c_min_temp, r_min_temp + self.rows, c_min_temp + self.cols)
-
-        return self.bounds
-
-    # ----------------------------------- Moving the Viewport -----------------------------------
-
-    def move_to(self, origin: Hexagon) -> None:
-        """Move the viewport to a new origin hex."""
-        self.origin = origin
-
-    def move_by(self, rows: int = 0, cols: int = 0) -> None:
-        """Move the viewport by a given amount."""
-        row, col = self.origin
-        self.origin = Hexagon(row + rows, col + cols)
-
     # ------------------------- Developer Representation -----------------------------------
 
     def __repr__(self) -> str:
@@ -151,10 +102,10 @@ class Hexagons:
 
 class HexGridViewport:
     def __init__(self, hexagonal_grid: HexagonalGrid, radius: int, visible_size: tuple[int, int],
-                 origin: Hexagon = None, offset: Point = Point(0, 0)) -> None:
+                 origin: Hexagon, offset: Point = Point(0, 0)) -> None:
         self.hexagonal_grid = hexagonal_grid
         self.radius = radius
-        self._origin = Hexagon(*origin)
+        self._origin = Hexagon(origin.row, origin.col)
 
         self.bounds = self.hexagonal_grid.bounds  # The real bounds, including non-visible hexagons
 
@@ -232,7 +183,7 @@ class HexGridViewport:
         max_origin_row = max(top, bottom - self.rows)
         max_origin_col = max(left, right - self.cols)
 
-        # Clamp requested origin to [top..max_origin_row] and [left..max_origin_col]
+        # Clamp requested origin to [top ... max_origin_row] and [left ... max_origin_col]
         r_min_temp = min(max(r_min, top), max_origin_row)
         c_min_temp = min(max(c_min, left), max_origin_col)
 

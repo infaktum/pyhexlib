@@ -143,7 +143,7 @@ def outline_layer_imprinted_renderer(color_dark: HexColor = (50, 50, 50),
     `render_outline_layer_imprinted(surface, grid, hexagons, ...) -> pygame.Surface`.
     """
 
-    def renderer(surface: pygame.Surface, grid: OutlineGridLayer, hexagons, *args, **kwargs) -> pygame.Surface:
+    def renderer(surface: pygame.Surface, grid: OutlineGridLayer, hexagons) -> pygame.Surface:
         # Forward to the main implementation while binding the colors
         return _render_outline_layer_imprinted(surface, grid, hexagons,
                                                color_dark=color_dark, color_light=color_light)

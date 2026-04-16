@@ -44,7 +44,7 @@ class HexGridRenderer:
             self.visible_size = self.layers.size
             self.screen_size = self.width, self.height = g.compute_screen_size(*self.layers.size, self.radius)
 
-        self.origin = origin if origin is not None else self.layers.r_min, self.layers.c_min
+        self.origin = origin if origin is not None else Hexagon(self.layers.r_min, self.layers.c_min)
 
         self.viewport = HexGridViewport(hexagonal_grid=self.layers.hexagons, radius=self.radius, origin=self.origin,
                                         visible_size=self.visible_size)
@@ -177,7 +177,7 @@ class HexGridRenderer:
 
     def set_renderer(self, layer_type: type | str, render_fn) -> None:
         """Register a custom rendering function for a specific layer type."""
-        register_name = layer_type.__name__ if type(layer_type) != str else layer_type
+        register_name = layer_type.__name__ if isinstance(layer_type, HexGridLayer) else layer_type
         self._render_functions[register_name] = render_fn
         logging.log(logging.INFO, f'Registering custom renderer "{render_fn}" for layer  "{register_name}"')
 

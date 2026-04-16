@@ -166,12 +166,12 @@ class HexagonalGrid:
 
     def _neighbors_with_cost(self, rc: Hexagon, max_cost: int, cost_fn=None, dist: int = 1, ) -> dict:
         """
-        Sammle alle Hex-Felder, die von `start` aus mit kumulierten Bewegungskosten <= max_cost
-           Rückgabe: dict: rc -> (cost, steps, prev) wobei prev das Vorgängerfeld ist (oder None für start).
+        Sammle alle Hex-Felder, die von `start` aus mit kumulierten Bewegungskosten ≤ max_cost
+           Rückgabe: dict: rc → (cost, steps, prev) wobei prev das Vorgängerfeld ist (oder None für start).
         - hexagons: Container mit vorhandenen Koordinaten (z.B. dict, set, MovementGrid)
         - start: (row, col)
         - max_cost: maximale kumulierte Bewegungskosten (incl. Kosten der betretenen Felder)
-        - cost_fn: optional, Funktion cost_fn(rc) -> Kosten zum Betreten von rc
+        - cost_fn: optional, Funktion cost_fn(rc) → Kosten zum Betreten von rc
         - max_steps: optional maximale Anzahl an Schritten
         - dist: Nachbarabstand, weitergegeben an `neighbors`
         """

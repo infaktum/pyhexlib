@@ -372,17 +372,17 @@ class HexGridManager:
     # ---------------------------- Hexagon Selection -------------------------------
 
     def get_hexagons(self, clipping: Clipping = None) -> HexagonalGrid:
-        """
-        Return a HexagonalGrid containing only the hex coordinates from this manager
-        that fall within the rectangular clipping area.
+        """Return a HexagonalGrid containing only the hex coordinates inside a clipping.
 
-        Parameters:
-        - clipping: either None (return full grid), or a pair (top_left, bottom_right),
-          where each is an (r, c) tuple. Also accepts an object with attributes
-          `top_left` and `bottom_right` (each an (r, c) tuple).
+        :param clipping: Either ``None`` (returns the full grid) or a 4-tuple
+            ``(r_min, c_min, r_max, c_max)`` specifying top-left and bottom-right
+            coordinates (inclusive). The method also accepts an object that
+            exposes ``top_left`` and ``bottom_right`` attributes each being an
+            ``(r, c)`` tuple.
+        :type clipping: None | tuple[int,int,int,int] | object
 
-        The bounds are inclusive. The method is robust to the order of coordinates
-        and will normalize min/max for each axis.
+        The bounds are inclusive. The method normalizes min/max for each axis
+        so the order of coordinates does not matter.
         """
         if clipping is None:
             return self.hexagons

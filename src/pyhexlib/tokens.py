@@ -103,9 +103,8 @@ class FreeToken(Token):
         Shows the token id, grid coordinate (rc), the direction name, the
         computed angle (degrees) and whether an image surface is present.
         """
-        dir_name = getattr(self.direction, "name", repr(self.direction))
         return (
-            f"(id={self.id!r}, rc={self.rc!r}, direction={dir_name!r}, "
+            f"(id={self.id!r}, rc={self.rc!r}, "
             f"angle={self.angle!r}, image_set={self._image is not None})"
         )
 

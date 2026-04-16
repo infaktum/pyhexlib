@@ -121,7 +121,7 @@ class Bounds:
         raise IndexError('Bounds index out of range')
 
 
-# --------------------------------------- Neighbohood ---------------------------------------
+# --------------------------------------- Neighborhood ---------------------------------------
 
 class Neighborhood:
     def __init__(self, center: Hexagon, reachable: Dict[Hexagon, Tuple[int, int, Hexagon]]):
@@ -135,7 +135,7 @@ class Neighborhood:
         return self.reachable.get(neighbor, float('inf'))
 
     def direction(self, neighbor: Hexagon):
-        return get_direction((self.hexagons.row, self.hexagons.col), (neighbor.row, neighbor.col))
+        return get_direction((self.center.row, self.center.col), (neighbor.row, neighbor.col))
 
     def path(self, target: Hexagon):
         path = []
@@ -244,15 +244,15 @@ _direction_mappings: DirectionMapping = \
 
 # ----------------------------------- Neighborhoods and Directions -----------------------------------
 
-def _nb_dir_mapping(parity: int) -> DirectionMapping:
+def nb_dir_mapping(parity: int) -> DirectionMapping:
     return _direction_mappings[pyhexlib.get_orientation()][parity]
 
 
 def neighborhood_basic(row, col) -> List[tuple[int, int]]:
     if pyhexlib.is_flat:
-        return [(row + drow, col + dcol) for drow, dcol in _nb_dir_mapping(col & 1)]
+        return [(row + drow, col + dcol) for drow, dcol in nb_dir_mapping(col & 1)]
     else:
-        return [(row + drow, col + dcol) for drow, dcol in _nb_dir_mapping(row & 1)]
+        return [(row + drow, col + dcol) for drow, dcol in nb_dir_mapping(row & 1)]
 
 
 # The main direction computation function that handles both orientations and falls back to approximation if not a direct neighbor.
@@ -260,7 +260,7 @@ def neighborhood_basic(row, col) -> List[tuple[int, int]]:
 def get_direction(rc1, rc2) -> Direction:
     # parity depends on orientation: FLAT uses column parity, POINTY uses row parity
     parity = rc1[1] & 1 if pyhexlib.is_flat else rc1[0] & 1
-    directions = _nb_dir_mapping(parity)
+    directions = nb_dir_mapping(parity)
 
     drow = rc2[0] - rc1[0]
     dcol = rc2[1] - rc1[1]
@@ -448,7 +448,7 @@ def astar(hexagons, start, goal, cost_fn=None) -> List[tuple[int, int]] | None:
     This implementation supports an optional preference-based penalty that
     biases the search to keep one of the offset coordinates ('row' or 'col')
     close to the start coordinate. This can be used to force a more
-    'zig-zag' style horizontal movement instead of the usual straight/triangular
+    'zigzag' style horizontal movement instead of the usual straight/triangular
     shortest path. The parameters are:
 
     - prefer_coord: 'none' (default), 'row' or 'col'. If not 'none', the
@@ -457,7 +457,7 @@ def astar(hexagons, start, goal, cost_fn=None) -> List[tuple[int, int]] | None:
       chosen coordinate.
     - penalty: a non-negative float multiplier controlling how strongly
       deviations are penalized. Default 0.0 (no penalty) preserves original
-      behaviour.
+      behavior.
 
     Note: adding a penalty can make the heuristic inadmissible (i.e. no
     longer guaranteed to be optimistic) and therefore may sacrifice optimality
