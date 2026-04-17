@@ -11,7 +11,7 @@
 contains logic for creating and manipulating hex grids, low-level drawing helpers, and a lightweight renderer
 that can be used with `pygame`.
 
-![strategic_command.jpg](docs/images/strategic_command.jpg)
+![strategic_command.jpg](images/strategic_command-2.jpg)
 
 ## Main features
 
@@ -219,9 +219,13 @@ CI: Use GitHub Actions with a Python matrix for automated testing and linting.
 
 ## License
 
-This software is published under the MIT license. See the LICENSE file for details.
+No license file is currently included in the repository. (Consider adding one.)
 
+Suggested license: MIT — if you like, add a `LICENSE` file with the MIT text.
 
+## Contact / Further links
 
+- Repo: (add your GitHub link here)
+- Issues: (open issues in the repo for bugs/feature requests)
 
-
+---
