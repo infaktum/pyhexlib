@@ -52,11 +52,6 @@ jobs:
             sphinx-apidoc -o docs/api src/pyguilib --force --separate --module-first || true
           fi
 
-      - name: Convert README and copy images (Python)
-        run: |
-          set -e
-          python3 scripts/generate_docs_readme.py --src README.md --dest docs/README.md
-
       - name: Build Sphinx HTML
         run: |
           python -m sphinx -b html docs docs/_build/html

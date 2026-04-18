@@ -11,7 +11,7 @@
 contains logic for creating and manipulating hex grids, low-level drawing helpers, and a lightweight renderer
 that can be used with `pygame`.
 
-![strategic_command.jpg](docs/images/strategic_command.jpg)
+![strategic_command.jpg](images/strategic_command.jpg)
 
 ## Main features
 
