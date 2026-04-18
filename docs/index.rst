@@ -3,10 +3,10 @@ Documentation of PyHexLib
 
 .. toctree::
    :maxdepth: 2
+   :caption: Navigation
 
-   README
-   api/modules
-
+   About PyHexLib <README>
+   API reference <api/modules>
 
 
 Introduction
