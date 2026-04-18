@@ -32,9 +32,8 @@ jobs:
         run: |
           set -e
           if [ -f requirements.txt ]; then
-            sudo sudo apt-get install python3-pygame
             python -m pip install --upgrade pip
-            python -m pip install -r requirements.txt
+            pip install -r requirements.txt
             python -m pip install sphinx sphinx_rtd_theme myst-parser
           fi
 
