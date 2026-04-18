@@ -28,25 +28,10 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Try install pygame from wheel (fast path)
+      - name: Install dependencies
         run: |
-          python -m pip install --upgrade pip
-          # Try to install pygame from prebuilt wheel only. Don't fail if no wheel is available.
-          python -m pip install --only-binary=:all: pygame || true
-          # Install other requirements but exclude any line containing 'pygame' to avoid source build here
+          set -e
           if [ -f requirements.txt ]; then
-            grep -vi 'pygame' requirements.txt > /tmp/reqs_no_pygame.txt || true
-            python -m pip install -r /tmp/reqs_no_pygame.txt || true
-          fi
-          python -m pip install sphinx sphinx_rtd_theme myst-parser || true
-
-      - name: "Fallback: install system deps and (re)install requirements if pygame wheel not available"
-        run: |
-          # If pygame is importable we skip the heavy system install; otherwise install deps and full requirements
-          if python -c "import pygame" >/dev/null 2>&1; then
-            echo "pygame already importable, skipping system deps"
-          else
-            sudo apt-get update
             sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
               build-essential pkg-config \
               libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev \
