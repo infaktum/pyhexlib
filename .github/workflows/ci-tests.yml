@@ -1,91 +1,81 @@
-name: Unit Tests
+name: Build and deploy sphinx documentation
 
 on:
   push:
-    branches: [ "**" ]
-  pull_request:
-    branches: [ "**" ]
+    branches: [ main ]
+  workflow_dispatch: { }
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: docs-build
+  cancel-in-progress: true
 
 jobs:
-  tests:
-    name: Run tests on Python ${{ matrix.python-version }}
+  build:
+    name: Build, upload and deploy Sphinx docs
     runs-on: ubuntu-latest
-    # expose the secret as an env var so it can be safely referenced in `if` expressions
-    env:
-      CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
-    strategy:
-      matrix:
-        python-version: [ "3.10" ]
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Set up Python ${{ matrix.python-version }}
+      - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: ${{ matrix.python-version }}
-
-      - name: Cache pip
-        uses: actions/cache@v4
-        with:
-          path: ~/.cache/pip
-          key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
-          restore-keys: |
-            ${{ runner.os }}-pip-
+          python-version: '3.x'
 
       - name: Install dependencies
         run: |
           python -m pip install --upgrade pip
-          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
-          # install package in editable mode so tests import the package from src/
-          python -m pip install -e .
-          # testing tools
-          python -m pip install pytest pytest-cov
+          python -m pip install -r requirements.txt
+          python -m pip install sphinx sphinx_rtd_theme myst-parser
 
-      - name: Run tests with coverage
+      - name: Copy README  to docs
         run: |
-          mkdir -p reports
-          # run pytest, write JUnit XML and coverage XML per Python version
-          python -m pytest --junitxml=reports/junit-${{ matrix.python-version }}.xml \
-            --cov=pyhexlib --cov-report=xml:reports/coverage-${{ matrix.python-version }}.xml -q
+          cp README.md docs/
 
-      - name: Upload test reports (JUnit & coverage)
+      - name: Copy images to    docs
+        run: |
+          mkdir -p docs/images
+          cp -r images/* docs/images/ 
+
+      - name: Generate API docs with sphinx-apidoc
+        run: |
+          set -e
+          if [ -d src/pyhexlib ]; then
+            sphinx-apidoc -o docs/api src/pyhexlib --force --separate --module-first || true
+          fi
+          if [ -d src/pyguilib ]; then
+            sphinx-apidoc -o docs/api src/pyguilib --force --separate --module-first || true
+          fi          
+
+      - name: Build Sphinx HTML
+        run: |
+          python -m sphinx -b html docs docs/_build/html
+
+      - name: Upload HTML as an artifact
         uses: actions/upload-artifact@v4
         with:
-          name: test-reports-python-${{ matrix.python-version }}
-          path: reports/*.xml
+          name: docs-html
+          path: docs/_build/html
 
-      - name: Check for JUnit report
-        id: check_reports
-        run: |
-          if [ -f reports/junit-${{ matrix.python-version }}.xml ]; then
-            echo "exists=true" >> $GITHUB_OUTPUT
-          else
-            echo "exists=false" >> $GITHUB_OUTPUT
-          fi
+      - name: Configure GitHub Pages
+        uses: actions/configure-pages@v5
 
-      - name: Publish JUnit report to GitHub Checks
-        if: steps.check_reports.outputs.exists == 'true'
-        # Use enricomi's publisher which accepts junit XML and annotates the check
-        uses: enricomi/publish-unit-test-result-action@v1
-        continue-on-error: true
+      - name: Upload Pages artifact
+        uses: actions/upload-pages-artifact@v3
         with:
-          files: reports/junit-${{ matrix.python-version }}.xml
+          path: docs/_build/html
 
-      - name: Upload coverage to Codecov (with token)
-        if: ${{ env.CODECOV_TOKEN != '' }}
-        uses: codecov/codecov-action@v4
-        with:
-          token: ${{ env.CODECOV_TOKEN }}
-          files: reports/coverage-${{ matrix.python-version }}.xml
-          fail_ci_if_error: true
+  deploy:
+    environment: github-pages
+    needs: build
 
-      - name: Upload coverage to Codecov (no token)
-        if: ${{ env.CODECOV_TOKEN == '' }}
-        uses: codecov/codecov-action@v4
-        with:
-          files: reports/coverage-${{ matrix.python-version }}.xml
-          fail_ci_if_error: true
-
-
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@v4
