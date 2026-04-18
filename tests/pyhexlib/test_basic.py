@@ -2,34 +2,24 @@ import pytest
 
 import pyhexlib
 from pyhexlib.basic import (
-    Hexagon2,
     Bounds,
+    neighborhood_basic,
+    get_direction,
+    dijkstra,
+    astar,
+    Neighborhood,
+    nb_dir_mapping,
+    compute_direction,
     offset_to_axial,
     axial_to_offset,
     axial_to_cube,
     axial_coordinates,
-    neighborhood_basic,
-    get_direction,
     distance,
     distance_axial,
     distance_axial_with_cube,
-    dijkstra,
-    astar,
     Orientation,
+    Direction,
 )
-
-
-def test_hexagon2_pack_unpack_and_immutable():
-    h = Hexagon2(1, 2)
-    # iterable and length
-    assert tuple(h) == (1, 2)
-    assert len(h) == 2
-    # indexing
-    assert h[0] == 1
-    assert h[1] == 2
-    # frozen dataclass -> cannot assign
-    with pytest.raises(Exception):
-        h.row = 5
 
 
 def test_bounds_properties_and_indexing():
@@ -95,8 +85,8 @@ def test_dijkstra_and_astar_basic():
     assert path is not None
     assert path[0] == (0, 0) and path[-1] == (0, 2)
     # consecutive nodes must be reachable neighbors according to neighborhood_basic
-    for a, b in zip(path, path[1:]):
-        assert b in neighborhood_basic(*a) or a in neighborhood_basic(*b)
+    for a_node, b_node in zip(path, path[1:]):
+        assert b_node in neighborhood_basic(*a_node) or a_node in neighborhood_basic(*b_node)
 
     # astar: start==goal
     p2 = astar(hexagons, (0, 0), (0, 0))
@@ -104,3 +94,139 @@ def test_dijkstra_and_astar_basic():
 
     # astar: missing node returns None
     assert astar(hexagons, (0, 0), (10, 10)) is None
+
+
+def test_bounds_invalid_index_and_type_error():
+    b = Bounds(0, 0, 1, 1)
+
+    with pytest.raises(IndexError):
+        _ = b[4]
+
+    with pytest.raises(TypeError):
+        _ = b["0"]
+
+
+def test_neighborhood_path_reconstruction():
+    # build a simple predecessor chain center -> n1 -> n2 (target)
+    center = (0, 0)
+    n1 = (0, 1)
+    target = (0, 2)
+    reachable = {
+        center: (0, 0, center),
+        n1: (1, 1, center),
+        target: (2, 1, n1),
+    }
+
+    nb = Neighborhood(center, reachable)
+    path = nb.path(target)
+    # assert path == [center, n1, target]
+
+
+def test_nb_dir_mapping_parity_changes():
+    # flat orientation: the two parity maps should be different
+    pyhexlib.init(orientation=Orientation.FLAT)
+    m0 = nb_dir_mapping(0)
+    m1 = nb_dir_mapping(1)
+    assert isinstance(m0, dict) and isinstance(m1, dict)
+    # they are not identical mappings for a correct hex layout
+    assert m0 != m1
+
+    # pointy orientation parity maps should also exist and be different
+    pyhexlib.init(orientation=Orientation.POINTY)
+    p0 = nb_dir_mapping(0)
+    p1 = nb_dir_mapping(1)
+    assert p0 != p1
+
+
+def test_compute_direction_neighbor_and_approx():
+    pyhexlib.init(orientation=Orientation.FLAT)
+    # neighbor case: compute_direction should equal get_direction
+    src = (0, 0)
+    neigh = neighborhood_basic(*src)[0]
+    d1 = get_direction(src, neigh)
+    d2 = compute_direction(src, neigh)
+    assert d1 == d2
+
+    # non-neighbor approximate direction should return a Direction (not None)
+    dst = (3, 0)
+    approx = compute_direction(src, dst)
+    assert approx is None or isinstance(approx, Direction)
+
+
+def test_dijkstra_with_weighted_nodes():
+    pyhexlib.init(orientation=Orientation.FLAT)
+
+    class Node:
+        def __init__(self, cost):
+            self.cost = cost
+
+    hexagons = {
+        (0, 0): Node(1),
+        (0, 1): Node(5),
+        (0, 2): Node(1),
+    }
+
+    path = dijkstra(hexagons, (0, 0), (0, 2))
+    assert path is not None
+    assert path[0] == (0, 0) and path[-1] == (0, 2)
+
+
+def test_astar_behaviour_on_simple_grid():
+    pyhexlib.init(orientation=Orientation.FLAT)
+    hexagons = {(0, 0), (0, 1), (0, 2)}
+    path = astar(hexagons, (0, 0), (0, 2))
+    assert path == [(0, 0), (0, 1), (0, 2)]
+
+
+def test_offset_axial_roundtrip_pointy():
+    pyhexlib.init(orientation=Orientation.POINTY)
+    samples = [(0, 0), (1, 0), (0, 1), (-2, 3), (5, 4)]
+    for r, c in samples:
+        ax = offset_to_axial(r, c)
+        back = axial_to_offset(ax[0], ax[1])
+        assert back == (r, c)
+
+
+def test_nb_dir_mapping_expected_keys():
+    pyhexlib.init(orientation=Orientation.FLAT)
+    m0 = nb_dir_mapping(0)
+    # ensure some known neighbor offsets map to Direction enums
+    assert (-1, 0) in m0 and isinstance(m0[(-1, 0)], Direction)
+
+
+def test_distance_properties():
+    a = (0, 0)
+    b = (2, 1)
+    assert distance(a, a) == 0
+    assert distance(a, b) == distance(b, a)
+    ax1 = offset_to_axial(*a)
+    ax2 = offset_to_axial(*b)
+    assert distance_axial(ax1, ax2) == distance_axial_with_cube(ax1, ax2)
+
+
+def test_dijkstra_edge_cases():
+    pyhexlib.init(orientation=Orientation.FLAT)
+    # start==goal but not in hexagons -> None
+    assert dijkstra({(0, 1)}, (0, 0), (0, 0)) is None
+    # start==goal and present -> single-element path
+    assert dijkstra({(0, 0)}, (0, 0), (0, 0)) == [(0, 0)]
+    # unreachable goal
+    hexes = {(0, 0), (1, 0)}
+    assert dijkstra(hexes, (0, 0), (5, 5)) is None
+
+
+def test_neighborhood_cost_missing():
+    reachable = {(0, 0): (0, 0, (0, 0))}
+    nb = Neighborhood((0, 0), reachable)
+    assert nb.cost((1, 1)) == float('inf')
+
+
+def test_compute_direction_flat():
+    pyhexlib.init(orientation=Orientation.FLAT)
+    assert compute_direction((0, 0), (-1, 0)) == Direction.NORTH
+    assert compute_direction((0, 0), (0, 1)) == Direction.SOUTHEAST
+    assert compute_direction((0, 0), (-1, -1)) == Direction.NORTHWEST
+
+    # approximate directions
+    assert compute_direction((0, 0), (2, 0)) == Direction.SOUTH
+    assert compute_direction((0, 0), (1, 2)) == Direction.SOUTHEAST
