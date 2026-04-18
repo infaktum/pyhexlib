@@ -1,4 +1,4 @@
-name: Build and deploy documentation
+name: Build and deploy Sphinx documentation to GitHub Pages
 
 on:
   push:
@@ -26,13 +26,37 @@ jobs:
       - name: Set up Python
         uses: actions/setup-python@v4
         with:
-          python-version: '3.x'
+          python-version: '3.12'
 
-      - name: Install dependencies
+      - name: Try install pygame from wheel (fast path)
         run: |
           python -m pip install --upgrade pip
-          python -m pip install -r requirements.txt
-          python -m pip install sphinx sphinx_rtd_theme myst-parser
+          # Try to install pygame from prebuilt wheel only. Don't fail if no wheel is available.
+          python -m pip install --only-binary=:all: pygame || true
+          # Install other requirements but exclude any line containing 'pygame' to avoid source build here
+          if [ -f requirements.txt ]; then
+            grep -vi 'pygame' requirements.txt > /tmp/reqs_no_pygame.txt || true
+            python -m pip install -r /tmp/reqs_no_pygame.txt || true
+          fi
+          python -m pip install sphinx sphinx_rtd_theme myst-parser || true
+
+      - name: "Fallback: install system deps and (re)install requirements if pygame wheel not available"
+        run: |
+          # If pygame is importable we skip the heavy system install; otherwise install deps and full requirements
+          if python -c "import pygame" >/dev/null 2>&1; then
+            echo "pygame already importable, skipping system deps"
+          else
+            sudo apt-get update
+            sudo DEBIAN_FRONTEND=noninteractive apt-get install -y \
+              build-essential pkg-config \
+              libsdl1.2-dev libsdl-image1.2-dev libsdl-mixer1.2-dev libsdl-ttf2.0-dev \
+              libsmpeg-dev libportmidi-dev \
+              libavformat-dev libavcodec-dev libswscale-dev \
+              libfreetype6-dev libjpeg-dev libpng-dev
+            python -m pip install --upgrade pip
+            python -m pip install -r requirements.txt
+            python -m pip install sphinx sphinx_rtd_theme myst-parser
+          fi
 
       - name: Copy README  to docs
         run: |

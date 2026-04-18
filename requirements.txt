@@ -1,1 +1,3 @@
-pygame>=2.0
+# Pin pygame to a specific version to prefer prebuilt wheels on CI (reduces chance of source builds)
+# If you need a different version, update this and verify wheels exist for Python 3.12 on PyPI.
+pygame==2.1.3
