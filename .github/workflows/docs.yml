@@ -65,9 +65,7 @@ jobs:
           if [ -d src/pyhexlib ]; then
             sphinx-apidoc -o docs/api src/pyhexlib --force --separate --module-first || true
           fi
-          if [ -d src/pyguilib ]; then
-            sphinx-apidoc -o docs/api src/pyguilib --force --separate --module-first || true
-          fi
+
 
       - name: Build Sphinx HTML
         run: |
