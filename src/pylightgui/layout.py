@@ -27,9 +27,9 @@ from typing import Dict, List, Optional, Any, Tuple
 
 import pygame
 
-from pyguilib import Point
-from pyguilib.components import Component
 from pyhexlib.graphic import Size
+from pylightgui import Point
+from pylightgui.components import Component
 
 
 # ------------------------------------------------------------------------------------

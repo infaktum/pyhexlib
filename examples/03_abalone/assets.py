@@ -1,12 +1,13 @@
 import pygame
 
-from pyhexlib.graphic import Assets
+from pyhexlib.assets import Assets
 
 
 # -------------------------------------------- Assets -------------------------------------------------
 
 class GameAssets(Assets):
     def __init__(self, size):
+        super().__init__(size)
         self.tokens = {
             0: draw_token(size, (230, 230, 230)),
             1: draw_token(size, (30, 30, 30)),

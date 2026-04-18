@@ -3,8 +3,8 @@ import sys
 import pygame
 from pygame import Color
 
-import pyguilib
 import pyhexlib
+import pylightgui
 from assets import GameAssets as Assets
 from controller import Controller
 from game import setup
@@ -75,8 +75,8 @@ military_skin = {
 }
 
 if __name__ == "__main__":
-    pyguilib.init(skin=military_skin)
+    pylightgui.init(skin=military_skin)
     controller, renderer, screen, gui = init(25, 30, 40)
-    gui_renderer = pyguilib.render.GuiRenderer(screen)
+    gui_renderer = pylightgui.render.GuiRenderer(screen)
     while True:
         run(screen, controller, renderer, gui_renderer)

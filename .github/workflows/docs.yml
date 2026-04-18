@@ -47,7 +47,8 @@ jobs:
           if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
           # Install package in editable mode so Sphinx autodoc can import the package from src/
           python -m pip install -e .
-          python -m pip install sphinx sphinx_rtd_theme myst-parser
+          # Install documentation-specific dependencies from docs/requirements.txt
+          if [ -f docs/requirements.txt ]; then python -m pip install -r docs/requirements.txt; fi
 
       - name: Copy README  to docs
         run: |

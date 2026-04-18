@@ -4,10 +4,10 @@ import pygame
 
 import pyhexlib
 from game_gui import create_gui
-from pyguilib import Size
 from pyhexlib.assets import Assets
 from pyhexlib.basic import Orientation
 from pyhexlib.utils import round_edges
+from pylightgui import Size
 
 COUNTRIES = ["US", "Axis"]  # ,"UK"]
 UNIT_TYPES = ["Infantry", "Armor", "Artillery", "Airborne", "Navy", "AirForce"]

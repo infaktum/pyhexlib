@@ -1,11 +1,10 @@
 import pygame
-from pyhexlib.grid import CoordinateGridLayer, HexGridLayers, FillGridLayer, OutlineGridLayer, ImageGridLayer
-from pyhexlib.hexagon import rectangle, HexType
 
 from assets import GameAssets
 from board import GameBoard
 from controller import Controller
-from pyhexlib.graphic import RenderEngine
+from pyhexlib.layers import FillGridLayer, OutlineGridLayer, HexGridManager
+from pyhexlib.render import HexGridRenderer
 
 # ------------------------------- GameBoard -----------------------------------
 
@@ -28,18 +27,18 @@ def main():
     pygame.display.set_mode((1000, 1000))
     assets = GameAssets(SIZE)
     grids = create_grids(assets)
-    renderer = RenderEngine(grids, SIZE, assets=assets, hex_type=HexType.POINTY)
+    renderer = HexGridRenderer(grids, SIZE, assets=assets)
     print(renderer)
     screen = pygame.display.set_mode((renderer.width, renderer.height), pygame.SRCALPHA)
     pygame.display.set_caption("Hex Game")
 
-    surface = pygame.Surface(renderer.compute_screen_size, pygame.SRCALPHA)
+    surface = pygame.Surface(pygame.SRCALPHA)
     renderer.render()
 
     screen.blit(surface, (0, 0))
     pygame.display.flip()
 
-    score_surface = pygame.Surface(renderer.compute_screen_size, pygame.SRCALPHA)
+    score_surface = pygame.Surface((1000, 1000), pygame.SRCALPHA)
     score_surface.fill((255, 255, 255))
 
     new_game(grids.get_layer(GAME))
@@ -85,12 +84,11 @@ def create_grids(assets):
     for rc in invalid:
         hexagons.remove(rc)
 
-    grids = HexGridLayers(hexagons)
+    grids = HexGridManager(hexagons)
 
-    grids.add_layer("background", FillGridLayer(default_color=COLOR_WOOD))
-    grids.add_layer("outline", (OutlineGridLayer(default_color=(0, 0, 0,), default_width=2)))
-    grids.add_layer("shadows", ImageGridLayer())
-    grids.add_layer(GAME, GameBoard(assets))
+    grids.add_layer(FillGridLayer(default_color=COLOR_WOOD))
+    grids.add_layer((OutlineGridLayer(default_color=(0, 0, 0,), default_width=2)))
+    grids.add_layer(GameBoard(assets))
 
     return grids
 

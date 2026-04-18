@@ -1,0 +1,6 @@
+# Requirements for building the Sphinx documentation
+# Pin Sphinx to <8 to avoid known incompatibilities in the CI
+sphinx<8
+sphinx_rtd_theme
+myst-parser
+

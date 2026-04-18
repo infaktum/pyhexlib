@@ -26,15 +26,15 @@ from typing import Callable, Optional, TypeAlias
 import pygame
 from pygame import Surface, Vector2
 
-import pyguilib
-from pyguilib.basic import Point, Transparent
-from pyguilib.components import VisibleComponent, Overlay, Rim, Button, Component, Image
-from pyguilib.layout import Container
-from pyguilib.widgets import Window
+import pylightgui
+from pylightgui.basic import Point, Transparent
+from pylightgui.components import VisibleComponent, Overlay, Rim, Button, Component, Image
+from pylightgui.layout import Container
+from pylightgui.widgets import Window
 
 # ---------------------------------------- Logger ------------------------------------------------
 
-LOGGER = pyguilib.get_logger(__name__)
+LOGGER = pylightgui.get_logger(__name__)
 
 # ---------------------------------- The GUI renderer  ----------------------------------
 
@@ -129,7 +129,7 @@ class GuiRenderer:
 
 def _render_overlay(overlay: Overlay):
     surface = pygame.Surface(overlay.size, flags=pygame.SRCALPHA)
-    base_color = pyguilib.skin["color"]
+    base_color = pylightgui.skin["color"]
     surface.fill(base_color)
     for window in overlay.windows:
         pygame.draw.rect(surface, Transparent, window)
@@ -138,10 +138,10 @@ def _render_overlay(overlay: Overlay):
 
 def _render_rim(rim: Rim, transparent: bool = False):
     surface = pygame.Surface(rim.size, flags=pygame.SRCALPHA)
-    base_color = pyguilib.skin["color"]
+    base_color = pylightgui.skin["color"]
     if transparent:
         base_color[3] = 0
-    pyguilib.draw.draw_rim(surface, base_color=base_color, width=5)
+    pylightgui.draw.draw_rim(surface, base_color=base_color, width=5)
     return surface
 
 
@@ -150,8 +150,8 @@ def _render_image(image: Image):
 
 
 def _render_button(button: Button):
-    return pyguilib.draw.draw_button(size=button.size, text=button.text)
+    return pylightgui.draw.draw_button(size=button.size, text=button.text)
 
 
 def _render_window(window: Window):
-    return pyguilib.draw.draw_window(size=window.size, text=window.text, title=window.title, btn_text=window.btn_ok)
+    return pylightgui.draw.draw_window(size=window.size, text=window.text, title=window.title, btn_text=window.btn_ok)

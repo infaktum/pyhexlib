@@ -32,9 +32,9 @@ Examples
 Decorative rim that does not push buttons down:
 
 ```py
-from pyguilib import Point, Size
-from pyguilib.layout import Container, VerticalLayouter
-from pyguilib.components import Rim, Button
+from gameguilib import Point, Size
+from gameguilib.layout import Container, VerticalLayouter
+from gameguilib.components import Rim, Button
 
 gui = Container('ui', size=Size(400, 400), layouter=VerticalLayouter(margin=8))
 gui.add_component(Rim('rim', size=Size(400, 40)), pos=Point(0, 0), flow=False)

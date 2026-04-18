@@ -23,7 +23,7 @@ If you added or changed modules under `src/`, regenerate the API rst files
 with sphinx-apidoc:
 
 ````
-sphinx-apidoc -o docs/api src/pyhexlib src/pyguilib --force --separate --module-first
+sphinx-apidoc -o docs/api src/pyhexlib src/pylightgui --force --separate --module-first
 ````
 
 Build the HTML documentation
@@ -44,6 +44,6 @@ python -m http.server --directory docs/_build/html 8000
 Notes
 -----
 
-- `docs/conf.py` adds `../src` to the Python path so Sphinx can import the  `pypublib` package.
+- `docs/conf.py` adds `../src` to the Python path so Sphinx can import the `pyhexlib` package.
 - If you change docstrings, run the build again to refresh the HTML output.
 

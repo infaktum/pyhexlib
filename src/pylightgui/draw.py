@@ -25,8 +25,8 @@
 import pygame
 from pygame import Color, Rect, Surface
 
-import pyguilib
-from pyguilib.basic import Size, Point
+import pylightgui
+from pylightgui.basic import Size, Point
 
 
 # ------------------------------------------ Component drawing primitives ----------------------------------
@@ -34,7 +34,7 @@ from pyguilib.basic import Size, Point
 
 def draw_button(size: Size, text: str) -> pygame.Surface:
     surface = pygame.Surface((size.w, size.h))
-    skin = pyguilib.skin["Button"]
+    skin = pylightgui.skin["Button"]
 
     button_color, border_width = skin["color"], skin["border"]
 

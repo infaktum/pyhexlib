@@ -1,4 +1,4 @@
-from pyhexlib.grid import TokenGridLayer
+from pyhexlib.layers import TokenGridLayer
 
 
 # ------------------------------- GameBoard -----------------------------------

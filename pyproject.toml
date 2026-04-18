@@ -29,7 +29,7 @@ Repository = "https://github.com/infaktum/pyhexlib"
 
 [tool.setuptools.packages.find]
 where = ["src"]
-include = ["pyhexlib*"]
+include = ["pyhexlib*", "pylightgui*"]
 
 
 

@@ -25,18 +25,18 @@ import sys
 
 import pygame
 
-import pyguilib
-from pyguilib import Size, Point, Rectangle
-from pyguilib.components import Rim, Overlay, Button, Image
-from pyguilib.decorators import rim_decorator
-from pyguilib.layout import Container, VerticalLayouter
-from pyguilib.render import GuiRenderer
+import pylightgui
+from pylightgui import Size, Point, Rectangle
+from pylightgui.components import Rim, Overlay, Button, Image
+from pylightgui.decorators import rim_decorator
+from pylightgui.layout import Container, VerticalLayouter
+from pylightgui.render import GuiRenderer
 
 map_window = Rectangle(16, 92, 1200, 720)
 
 # ---------------------------------------- Logger ------------------------------------------------
 
-LOGGER = pyguilib.get_logger(__name__)
+LOGGER = pylightgui.get_logger(__name__)
 
 
 def init(size: Size, startscreen):

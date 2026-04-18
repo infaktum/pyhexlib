@@ -1,6 +1,4 @@
 import pygame
-from pyhexlib.grid import CoordinateGridLayer
-from pyhexlib.hexagon import neighbors, near_hexagons
 
 # ------------------------------ Constants -----------------------------------
 
@@ -96,19 +94,7 @@ class Controller:
         return self.grids.distance_axial(h1, h2)
 
     def handle_move(self, rc):
-        if self.distance(self.board.marker, rc) == 1:  # clone
-            self.board.set_token(rc, self.player)
-
-        elif self.distance(self.board.marker, rc) == 2:  # jump
-            self.board.remove(self.board.marker)
-            self.board.set_token(rc, self.player)
-
-        self.flip_neighbors(rc)
-
-    def flip_neighbors(self, rc):
-        for n in neighbors(self.hexagons, rc):
-            if self.board.get_token(n) is not None and self.board.get_token(n) != self.player:
-                self.board.set_token(n, self.player)
+        pass
 
     def remove_marker(self, rc):
         self.board.remove_marker()

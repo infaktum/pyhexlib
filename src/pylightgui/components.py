@@ -2,10 +2,10 @@ from abc import ABC
 
 import pygame
 
-import pyguilib
-import pyguilib.draw
-from pyguilib import Size
+import pylightgui
+import pylightgui.draw
 from pyhexlib.graphic import Rectangle
+from pylightgui import Size
 
 
 def rimmed(cls):
@@ -144,7 +144,7 @@ class Button(VisibleComponent):
         self.text = text
         self.state = False
 
-        self.image = pyguilib.draw.draw_button(size=size, text=text)
+        self.image = pylightgui.draw.draw_button(size=size, text=text)
 
     def __repr__(self) -> str:
         """Return a developer representation of the Button.

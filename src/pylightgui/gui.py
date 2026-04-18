@@ -21,15 +21,9 @@
 #  SOFTWARE.
 #
 #
-import pygame
-
-from pyguilib.components import VisibleComponent
+from gameguilib.layout import Container
 
 
-class Window(VisibleComponent):
-    def __init__(self, _id, size, title: str = None, text: str = None, icon: pygame.Surface = None, btn_ok: str = "Ok"):
-        super().__init__(_id=_id, size=size)
-        self.title = title
-        self.text = text
-        self.icon = icon
-        self.btn_ok = btn_ok
+class Gui(Container):
+    def __init__(self, size):
+        super().__init__(_id="gui", size=size)
