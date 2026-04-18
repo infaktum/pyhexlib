@@ -1,4 +1,4 @@
-name: Unit Tests with Coverage and GitHub Checks
+name: Unit Tests
 
 on:
   push:

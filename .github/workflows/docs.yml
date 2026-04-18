@@ -47,8 +47,7 @@ jobs:
           if [ -f requirements.txt ]; then python -m pip install -r requirements.txt; fi
           # Install package in editable mode so Sphinx autodoc can import the package from src/
           python -m pip install -e .
-          # Pin Sphinx to a 7.x release to avoid incompatibilities with extensions
-          python -m pip install 'sphinx<8' sphinx_rtd_theme myst-parser
+          python -m pip install sphinx sphinx_rtd_theme myst-parser
 
       - name: Copy README  to docs
         run: |
@@ -65,14 +64,13 @@ jobs:
           if [ -d src/pyhexlib ]; then
             sphinx-apidoc -o docs/api src/pyhexlib --force --separate --module-first || true
           fi
-
+        #  if [ -d src/pyguilib ]; then
+        #    sphinx-apidoc -o docs/api src/pyguilib --force --separate --module-first || true
+        #  fi
 
       - name: Build Sphinx HTML
         run: |
-          # ensure html_static_path exists to avoid warnings
-          mkdir -p docs/_static
-          sphinx-build --version
-          sphinx-build -b html docs docs/_build/html
+          python -m sphinx -b html docs docs/_build/html
 
       - name: Upload HTML as an artifact
         uses: actions/upload-artifact@v4
