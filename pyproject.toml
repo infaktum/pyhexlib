@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "pyhexlib"
-version = "0.1.0"
+version = "0.1.1"
 description = "A Python library for creating hex grid games with pygame."
 readme = { file = "README.md", content-type = "text/markdown" }
 requires-python = ">=3.10"
@@ -24,7 +24,7 @@ classifiers = [
 keywords = ["pygame", "hex", "hexgrid"]
 
 [project.urls]
-Homepage = "https://github.com/infaktum/pyhexlib"
+Homepage = "https://infaktum.github.io/pyhexlib/"
 Repository = "https://github.com/infaktum/pyhexlib"
 
 [tool.setuptools.packages.find]

@@ -4,7 +4,7 @@
 [![pygame 2](https://img.shields.io/badge/pygame-2-brightgreen)](https://www.pygame.org/news)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
-[![CI](https://github.com/infaktum/pyhexlib/actions/workflows/ci-tests.yml/badge.svg)](https://github.com/infaktum/pyhexlib/actions/workflows/ci-tests.yml)
+[![CI](https://github.com/infaktum/pyhexlib/actions/workflows/tests.yml/badge.svg)](https://github.com/infaktum/pyhexlib/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/infaktum/pyhexlib/branch/main/graph/badge.svg)](https://codecov.io/gh/infaktum/pyhexlib)
 
 `pyhexlib` is a small Python library for working with hexagonal grids and simple rendering utilities. It
