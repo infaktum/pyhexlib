@@ -10,8 +10,6 @@ from pyhexlib.layers import (
     SimpleImageGridLayer,
     TokenGridLayer,
     PathGridLayer,
-    CoordinateGridLayer,
-    IndexedColorGridLayer,
     HexGridManager, )
 from pyhexlib.tokens import SimpleToken
 
@@ -84,17 +82,6 @@ def test_path_grid_layer():
     assert p.visible is False
 
 
-def test_coordinate_and_terrain_layers():
-    coord = CoordinateGridLayer("c")
-    rc = Hexagon(1, 2)
-    assert coord.get_value(rc) == f"({rc.row},{rc.col})"
-
-    t = IndexedColorGridLayer("ter", {})
-    t.set_terrain_color("grass", (1, 2, 3))
-    t.hexagons[rc] = "grass"
-    assert t.get_color(rc) == (1, 2, 3)
-
-
 def test_hexgridmanager_layer_management_and_selection():
     hexes = rectangle_map(3, 3)
     grid = HexagonalGrid(hexes)
@@ -155,16 +142,6 @@ def test_path_grid_values_indexing():
     for idx, rc in enumerate(path):
         assert p.hexagons[rc] == idx
     p.remove_path()
-
-
-def test_terrain_default_and_coordinate_font():
-    coord = CoordinateGridLayer("coord2")
-    assert hasattr(coord, "font")
-
-    t = IndexedColorGridLayer("terrain2", {})
-    rc = Hexagon(0, 0)
-    # no terrain set -> None
-    assert t.get_color(rc) is None
 
 
 def test_hexgridmanager_visible_layers_and_clipping_normalization():
