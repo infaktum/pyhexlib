@@ -36,7 +36,7 @@ from pyhexlib.tokens import Token
 
 __all__ = ["Border", "HexColor", "StyledGridLayer", "AxialCoordinateHexGridLayer", "OutlineGridLayer",
            "FillGridLayer", "TextGridLayer", "CoordinateGridLayer", "ImageGridLayer",
-           "SimpleImageGridLayer", "TokenGridLayer", "PathGridLayer", "ValueGridLayer", "TerrainGridLayer",
+           "SimpleImageGridLayer", "TokenGridLayer", "PathGridLayer", "ValueGridLayer", "IndexedColorGridLayer",
            "HexGridLayer", "HexGridManager", "Token"]
 
 # ------------------------------ Color Type Alias -------------------------------
@@ -322,18 +322,23 @@ class CoordinateGridLayer(TextGridLayer):
 
 # ------------------------------ Terrain Grids -------------------------------
 
-class TerrainGridLayer(FillGridLayer):
-    def __init__(self, grid_id: str, hexagons=None, visible: bool = True, default_terrain=None, comment: str = None):
-        super().__init__(grid_id=grid_id, hexagons=hexagons, visible=visible, default_color=None, comment=comment)
+class TerrainGridLayer(ValueGridLayer):
+    def __init__(self, grid_id: str, hexagons=None, default_value=(1, 1, 1), comment: str = None):
+        super().__init__(grid_id=grid_id, hexagons=hexagons, visible=False, default_value=default_value,
+                         comment=comment)
         self.terrain_colors = {}
-        self.default_terrain = default_terrain
 
-    def set_terrain_color(self, terrain, color):
-        self.terrain_colors[terrain] = color
+    def get_value_land(self, rc: Hexagon) -> str:
+        return self.get_value_type(rc, 0)
 
-    def get_color(self, rc):
-        terrain = self.hexagons.get(rc, self.default_terrain)
-        return self.terrain_colors.get(terrain, None)
+    def get_value_sea(self, rc: Hexagon) -> str:
+        return self.get_value_type(rc, 1)
+
+    def get_value_air(self, rc: Hexagon) -> str:
+        return self.get_value_type(rc, 2)
+
+    def get_value_type(self, rc: Hexagon, type: int) -> int:
+        return self.get_value(rc)[type]
 
 
 # ------------------------------ Trigger Grids -------------------------------

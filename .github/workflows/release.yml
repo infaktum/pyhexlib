@@ -113,7 +113,7 @@ jobs:
           COUNT=0
           until [ $COUNT -ge $RETRIES ]
           do
-            python -m twine upload --non-interactive -u __token__ -p "$TWINE_PASSWORD" --repository testpypi dist/* && break
+            python -m twine upload --non-interactive -u __token__ -p "$TWINE_PASSWORD" --repository pypi dist/* && break
             COUNT=$((COUNT+1))
             echo "Upload attempt $COUNT failed; retrying in $((COUNT * 5))s..."
             sleep $((COUNT * 5))

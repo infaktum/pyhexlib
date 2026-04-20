@@ -87,7 +87,7 @@ class Controller:
                 self.path_layer.remove_path()
                 if rc in self.valid_moves:
                     if self.board.get_token(rc) is None:
-                        self.path = self.hexagons.path(self.board.marker, rc, cost_fn=self.movement.get_value)
+                        self.path = self.hexagons.path(self.board.marker, rc, cost_fn=self.movement_fn(self.active))
                         self.path_layer.color = (0, 0, 255, 150)
                         self.path_layer.set_path(self.path)
 
@@ -104,7 +104,7 @@ class Controller:
                 # print(f'Selected token: {self.active}')
                 movement_range = self.active.range
                 self.valid_moves = self.find_valid_moves(movement_range=movement_range,
-                                                         cost_fn=self.movement.get_value)
+                                                         cost_fn=self.movement.get_value_air)
                 self.moves.set_color(self.valid_moves, COLOR_HIGHLIGHT)
                 self.state = "UPDATE"
         else:
@@ -153,3 +153,11 @@ class Controller:
 
     def put_target(self, rc):
         self.board.put_target(rc)
+
+    def movement_fn(self, unit):
+        if unit.unit_type == 0:
+            return self.movement.get_value_land
+        elif unit.unit_type == 1:
+            return self.movement.get_value_sea
+        elif unit.unit_type == 2:
+            return self.movement.get_value_air

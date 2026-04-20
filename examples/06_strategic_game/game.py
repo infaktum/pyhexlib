@@ -1,14 +1,16 @@
 from pyhexlib.hexagons import Hexagon, Direction, HexagonalGrid, rectangle_map
-from pyhexlib.layers import TokenGridLayer, HexGridManager, OutlineGridLayer, ValueGridLayer, FillGridLayer, \
-    SimpleImageGridLayer, PathGridLayer
+from pyhexlib.layers import TokenGridLayer, HexGridManager, OutlineGridLayer, FillGridLayer, \
+    SimpleImageGridLayer, PathGridLayer, TerrainGridLayer
 from pyhexlib.tokens import Token, SimpleToken
 
 
 # ------------------------------  DirectionTokens -----------------------------------
 
 class Unit(SimpleToken):
-    def __init__(self, token_id, image, unit_range: int = None, hp: int = None, rc: Hexagon = None) -> None:
+    def __init__(self, token_id, image, unit_type=0, unit_range: int = None, hp: int = None,
+                 rc: Hexagon = None) -> None:
         super().__init__(token_id, image, rc)
+        self.unit_type = unit_type
         self._range = unit_range
         self._hp = hp
 
@@ -36,31 +38,31 @@ class Unit(SimpleToken):
 class Infantry(Unit):
 
     def __init__(self, token_id, image, rc: Hexagon = None) -> None:
-        super().__init__(token_id, image, unit_range=2, hp=3, rc=rc)
+        super().__init__(token_id, image, 0, unit_range=2, hp=3, rc=rc)
 
 
 class Armor(Unit):
 
     def __init__(self, token_id, image, rc: Hexagon = None) -> None:
-        super().__init__(token_id, image, 5, 10, rc)
+        super().__init__(token_id, image, 0, 5, 10, rc)
 
 
 class Artillery(Unit):
 
     def __init__(self, token_id, image, rc: Hexagon = None) -> None:
-        super().__init__(token_id, image, 2, 6, rc)
+        super().__init__(token_id, image, 0, 2, 6, rc)
 
 
 class Plane(Unit):
 
     def __init__(self, token_id, image, rc: Hexagon = None) -> None:
-        super().__init__(token_id, image, 8, 4, rc)
+        super().__init__(token_id, image, 2, 8, 4, rc)
 
 
 class Battleship(Unit):
 
     def __init__(self, token_id, image, rc: Hexagon = None) -> None:
-        super().__init__(token_id, image, 2, 20, rc)
+        super().__init__(token_id, image, 1, 2, 20, rc)
 
 
 # ------------------------------  GameBoard -----------------------------------
@@ -161,10 +163,23 @@ def setup(rows, cols, assets):
 
     grids.add_layer(SimpleImageGridLayer("background"))
     grids.add_layer(location_layer)
-    grids.add_layer(ValueGridLayer("terrain", default_value=1))
+    grids.add_layer(setup_terrain("terrain"))
     grids.add_layer(FillGridLayer("neighbors"))
     grids.add_layer(PathGridLayer("path"))
     grids.add_layer(token_layer)
     grids.add_layer(target_layer)
     grids.add_layer(OutlineGridLayer("outline", default_color=(255, 255, 255,), default_width=1))
     return grids, board
+
+
+def setup_terrain(name: str):
+    terrain = TerrainGridLayer(name, default_value=(1, 1, 1))
+    land = [Hexagon(4, 9)]
+    water = [(19, 0), (11, 0), (12, 0), (11, 1), (10, 2), (9, 3), (9, 4), (8, 5), (8, 6), (7, 6), (6, 7), (5, 7),
+             (5, 8), (4, 9), (4, 10),
+             (3, 11), (3, 12), (3, 13), (2, 13), (1, 13), (0, 13), (0, 12), ]
+    for rc in land:
+        terrain.set_value(rc, (1, 100, 1))
+    for rc in water:
+        terrain.set_value(rc, (1000, 1, 1))
+    return terrain

@@ -44,9 +44,6 @@ class GameAssets(Assets):
     def get_unit(self, country: str, unit_type: str) -> pygame.Surface:
         return self.units[(country, unit_type)]
 
-    def get_shadow_token(self, number: int) -> pygame.Surface:
-        return self.shadows[number]
-
 
 # -------------------------------------------- Helper Functions-------------------------------------------------
 

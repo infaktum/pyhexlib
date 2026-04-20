@@ -11,7 +11,7 @@ from pyhexlib.layers import (
     TokenGridLayer,
     PathGridLayer,
     CoordinateGridLayer,
-    TerrainGridLayer,
+    IndexedColorGridLayer,
     HexGridManager, )
 from pyhexlib.tokens import SimpleToken
 
@@ -89,7 +89,7 @@ def test_coordinate_and_terrain_layers():
     rc = Hexagon(1, 2)
     assert coord.get_value(rc) == f"({rc.row},{rc.col})"
 
-    t = TerrainGridLayer("ter", {})
+    t = IndexedColorGridLayer("ter", {})
     t.set_terrain_color("grass", (1, 2, 3))
     t.hexagons[rc] = "grass"
     assert t.get_color(rc) == (1, 2, 3)
@@ -161,7 +161,7 @@ def test_terrain_default_and_coordinate_font():
     coord = CoordinateGridLayer("coord2")
     assert hasattr(coord, "font")
 
-    t = TerrainGridLayer("terrain2", {})
+    t = IndexedColorGridLayer("terrain2", {})
     rc = Hexagon(0, 0)
     # no terrain set -> None
     assert t.get_color(rc) is None

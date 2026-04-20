@@ -329,7 +329,7 @@ def _render_value_layer(surface, grid: ValueGridLayer, hexagons) -> pygame.Surfa
 
 def load_font_from_resources() -> Font:
     font_font, font_size = pyhexlib.font['name'], pyhexlib.font['size']
-    font_file = resources.files("pyhex.fonts").joinpath(font_font)
+    font_file = resources.files("pyhexlib.fonts").joinpath(font_font)
 
     with resources.as_file(font_file) as font_path:
         font = pygame.font.Font(font_path, font_size)
