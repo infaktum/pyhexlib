@@ -15,6 +15,8 @@ jobs:
     # expose the secret as an env var so it can be safely referenced in `if` expressions
     env:
       CODECOV_TOKEN: ${{ secrets.CODECOV_TOKEN }}
+      # Ensure the source directory is available on PYTHONPATH during the job
+      PYTHONPATH: src
     strategy:
       matrix:
         python-version: [ "3.12" ]
