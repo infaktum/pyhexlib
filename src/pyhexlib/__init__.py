@@ -56,6 +56,24 @@ if not _pyhexlib_logger.handlers:
     _pyhexlib_logger.addHandler(logging.NullHandler())
 
 
+def _ensure_console_handler(log_level: int) -> None:
+    """Attach a console handler when no real handler is configured yet."""
+    has_real_handler = any(not isinstance(handler, logging.NullHandler) for handler in _pyhexlib_logger.handlers)
+    if has_real_handler:
+        _pyhexlib_logger.setLevel(log_level)
+        return
+
+    for handler in list(_pyhexlib_logger.handlers):
+        _pyhexlib_logger.removeHandler(handler)
+
+    handler = logging.StreamHandler()
+    handler.setLevel(log_level)
+    handler.setFormatter(logging.Formatter("%(levelname)s:%(name)s:%(message)s"))
+    _pyhexlib_logger.addHandler(handler)
+    _pyhexlib_logger.setLevel(log_level)
+    _pyhexlib_logger.propagate = False
+
+
 def get_logger(name: str):
     if isinstance(name, str) and name.startswith("pyhexlib"):
         return logging.getLogger(name)

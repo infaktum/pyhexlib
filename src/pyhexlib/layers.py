@@ -36,7 +36,7 @@ from pyhexlib.tokens import Token
 
 __all__ = ["Border", "HexColor", "StyledGridLayer", "AxialCoordinateHexGridLayer", "OutlineGridLayer",
            "FillGridLayer", "TextGridLayer", "CoordinateGridLayer", "ImageGridLayer",
-           "SimpleImageGridLayer", "TokenGridLayer", "PathGridLayer", "ValueGridLayer", "IndexedColorGridLayer",
+           "SimpleImageGridLayer", "TokenGridLayer", "PathGridLayer", "ValueGridLayer",
            "HexGridLayer", "HexGridManager", "Token"]
 
 # ------------------------------ Color Type Alias -------------------------------
@@ -338,6 +338,9 @@ class TerrainGridLayer(ValueGridLayer):
         return self.get_value_type(rc, 2)
 
     def get_value_type(self, rc: Hexagon, type: int) -> int:
+        if type == 1:
+            print(type)
+            return 100
         return self.get_value(rc)[type]
 
 
