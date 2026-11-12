@@ -364,11 +364,11 @@ class HexGridManager:
 
     @property
     def width(self) -> int:
-        return self.size[0]
+        return self.size[1]
 
     @property
     def height(self) -> int:
-        return self.size[1]
+        return self.size[0]
 
     @property
     def visible_layers(self) -> List[HexGridLayer]:

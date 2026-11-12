@@ -202,8 +202,10 @@ class HexGridRenderer:
 
     def set_renderer(self, layer_type: type | str, render_fn) -> None:
         """Register a custom rendering function for a specific layer type."""
-        register_name = layer_type.__name__ if isinstance(layer_type, HexGridLayer) else layer_type
+        register_name = layer_type.__name__ if isinstance(layer_type, type) else layer_type
         self._render_functions[register_name] = render_fn
+        self.surfaces.clear()
+        self.dirty = True
         logging.log(logging.INFO, f'Registering custom renderer "{render_fn}" for layer  "{register_name}"')
 
     # ------------------------------------ Caching Mechanism -----------------------------------

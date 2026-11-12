@@ -1,5 +1,5 @@
 import pyhexlib
-from pyhexlib.basic import Hexagon, Orientation, Neighborhood
+from pyhexlib.basic import Hexagon, Orientation, Direction, Neighborhood
 from pyhexlib.hexagons import HexagonalGrid, rectangle_map
 
 
@@ -16,6 +16,13 @@ def test_rectangle_map_and_grid_properties():
 
     # size should return (rows, cols)
     assert grid.size == (rows, cols)
+
+
+def test_empty_grid_has_zero_size_and_empty_bounds():
+    grid = HexagonalGrid([])
+    assert grid.size == (0, 0)
+    assert tuple(grid.bounds) == (0, 0, -1, -1)
+    assert len(grid) == 0
 
 
 def test_iteration_length_contains_and_repr():
@@ -55,10 +62,9 @@ def test_get_direction_approximation():
     grid = HexagonalGrid(hexes)
 
     src = Hexagon(1, 1)
-    dst = Hexagon(4, 2)
-    approx = grid.get_direction_(src, dst)
-    # can be None or a Direction enum; ensure no exception and type ok
-    # assert approx is None or hasattr(approx, "name")
+    assert grid.get_direction_(src, Hexagon(4, 1)) == Direction.SOUTH
+    assert grid.get_direction_(src, Hexagon(2, 1)) == Direction.SOUTH
+    assert grid.get_direction_(src, src) is None
 
 
 def test_neighbors_without_and_with_cost_and_get_neighborhood():

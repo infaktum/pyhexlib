@@ -1,5 +1,3 @@
-mache noch einmal eine genaue analyse
-
 # Changelog
 
 Alle nennenswerten Änderungen an `pyhexlib` werden hier dokumentiert. Das Format
@@ -9,6 +7,7 @@ folgt [Keep a Changelog](https://keepachangelog.com/de/1.1.0/).
 
 ### Fixed
 
+- Die angenäherte Richtung zwischen entfernten Hexfeldern liefert wieder einen `Direction`-Wert.
 - Umgekehrte Clipping-Grenzen wählen wieder alle Hexfelder im angegebenen Bereich aus.
 - Terrain-Ebenen geben für Wasser den gespeicherten Wert zurück, ohne eine Debug-Ausgabe zu schreiben.
 

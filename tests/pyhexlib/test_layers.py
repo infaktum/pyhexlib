@@ -94,11 +94,11 @@ def test_path_grid_layer():
 
 
 def test_hexgridmanager_layer_management_and_selection():
-    hexes = rectangle_map(3, 3)
+    hexes = rectangle_map(2, 3)
     grid = HexagonalGrid(hexes)
     mgr = HexGridManager(grid)
-    assert mgr.width == mgr.size[0]
-    assert mgr.height == mgr.size[1]
+    assert mgr.width == 3
+    assert mgr.height == 2
 
     # add/get/remove layer
     l = StyledGridLayer("layer1", hexes)

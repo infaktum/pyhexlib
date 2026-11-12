@@ -186,3 +186,7 @@ def test_get_angle_and_renderer_registration(monkeypatch):
     hg = HexGridLayer("hg")
     fn = renderer.get_renderer(hg)
     assert fn is custom
+
+    class_renderer = lambda surf, layer, hexs: surf
+    renderer.set_renderer(HexGridLayer, class_renderer)
+    assert renderer.get_renderer(hg) is class_renderer

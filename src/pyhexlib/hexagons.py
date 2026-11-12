@@ -62,6 +62,8 @@ class HexagonalGrid:
 
     @property
     def size(self) -> tuple[int, int]:
+        if not self.hexagons:
+            return 0, 0
         (r_min, c_min), (r_max, c_max) = self.bounds.topleft, self.bounds.bottomright
         rows, cols = (r_max + 1) - r_min, (c_max + 1) - c_min
         width, height = cols, rows
@@ -69,6 +71,8 @@ class HexagonalGrid:
 
     @property
     def bounds(self) -> Bounds:
+        if not self.hexagons:
+            return Bounds(0, 0, -1, -1)
         rs = [rc[0] for rc in self.hexagons]
         cs = [rc[1] for rc in self.hexagons]
         r_min, r_max = min(rs), max(rs)
@@ -125,7 +129,7 @@ class HexagonalGrid:
             # dot product between diff and unit neighbor vector
             dot = diff[0] * vec[0] + diff[1] * vec[1] + diff[2] * vec[2]
             # map this neighbor vector back to a Direction using the same parity mapping
-            direction = b.neighborhood_basic(nb[1] - rc1[1], nb[0] - rc1[0])
+            direction = self.get_direction(rc1, nb)
             if direction is not None:
                 candidates.append((dot, direction))
 

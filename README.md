@@ -1,11 +1,11 @@
-# PyHexLib - A library for Hexagonal Grids in Python
-
 [![Python 3.10](https://img.shields.io/badge/python-3.10-blue.svg)](https://www.python.org/downloads/release/python-3100/)
 [![pygame 2](https://img.shields.io/badge/pygame-2-brightgreen)](https://www.pygame.org/news)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![Code Style: Black](https://img.shields.io/badge/code%20style-black-000000.svg)](https://github.com/psf/black)
 [![CI](https://github.com/infaktum/pyhexlib/actions/workflows/tests.yml/badge.svg)](https://github.com/infaktum/pyhexlib/actions/workflows/tests.yml)
 [![codecov](https://codecov.io/gh/infaktum/pyhexlib/branch/main/graph/badge.svg)](https://codecov.io/gh/infaktum/pyhexlib)
+
+![Banner](https://github.com/infaktum/pyhexlib/raw/main/images/banner.jpg)
 
 `pyhexlib` is a small Python library for working with hexagonal grids and simple rendering utilities. It
 contains logic for creating and manipulating hex grids, low-level drawing helpers, and a lightweight renderer
@@ -17,8 +17,8 @@ that can be used with `pygame`.
 
 - Mathematical operations and coordinate transformations (axial / offset) and neighborhood queries.
 - Low-level drawing helpers: `hex_corner`, `hex_corners`, point-in-polygon checks.
-- Layers and rendering API (`pyhexlib.hexagons.Layer(s)`, `pyhexlib.renderer.Renderer`) for rendering multiple layers (
-  grid,
+- Layers and rendering API (`pyhexlib.hexagons.Layer(s)`, `pyhexlib.renderer.Renderer`) for rendering multiple layers
+  (grid,
   color map, color layer).
 
 > Note: The README describes the API of the current implementation in `pyhexlib/graphics.py`, `pyhexlib/hexagons.py` and
@@ -47,7 +47,7 @@ pip install -e .
 
 The examples below show common usage patterns based on the available API.
 
-screen.blit(surface, (0, 0))
+screen.blit (surface, (0, 0))
 
 1) Simple hex grid with `HexGridManager` and `HexGridRenderer` (Pygame)
 
@@ -85,7 +85,7 @@ while running:
             pygame.quit()
 ```
 
-screen.blit(surface, (0, 0))
+screen.blit (surface, (0, 0))
 
 2) Using `HexGridManager`, styled layers and the `HexGridRenderer`
 
@@ -123,9 +123,9 @@ pygame.display.flip()
 
 3) Low-level functions
 
-- hex_corner(center, size, i, pointy=False): compute a corner of a hex
-- hex_corners(center, size, pointy=False): returns 6 corners
-- point_in_polygon(x, y, poly): point-in-polygon test
+- hex_corner (center, size, i, pointy=False): compute a corner of a hex
+- hex_corners (center, size, pointy=False): returns 6 corners
+- point_in_polygon (x, y, poly): point-in-polygon test
 
 These helpers live in `pyhexlib.graphics` and `pyhexlib.hexagons`.
 
@@ -177,7 +177,7 @@ classes/functions)
 
 - pyhexlib.graphics
     - Hex: representation of a cell (row, col, center, size, edges, fill_color)
-    - HexGrid(rows, cols, hex_size, line_color, line_width, fill_color): grid with a `draw(surface)` method;
+    - HexGrid (rows, cols, hex_size, line_color, line_width, fill_color): grid with a `draw(surface)` method;
       conversion methods `xy_to_rq`, `rq_to_xy`, `get_hex_at`, `neighbors`, `distance`.
     - Helper functions: `hex_corner`, `hex_corners`, `point_in_polygon`, `axial_to_offset`, `offset_to_axial`.
 
@@ -186,7 +186,7 @@ classes/functions)
     - Layer, GridLayer, ColorLayer, ColorMapLayer, Layers: simple layer objects for storing color/display properties.
 
 - pyhexlib.renderer
-    - Renderer(layers, hex_size): creates an internal hex layout and provides `render(surface)` as well as
+    - Renderer (layers, hex_size): creates an internal hex layout and provides `render(surface)` as well as
       `render_layer`, `render_grid` and `render_color`.
 
 Note: The implementation is intentionally simple and targets Pygame as a rendering backend, but it can be adapted
