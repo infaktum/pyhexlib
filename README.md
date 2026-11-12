@@ -34,7 +34,7 @@ Install dependencies, e.g. inside a virtual environment:
 ```powershell
 python -m venv .venv
 .\.venv\Scripts\Activate.ps1
-pip install pygame
+pip install pygame-ce
 ```
 
 If you want to use the package locally in editable mode:

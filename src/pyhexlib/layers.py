@@ -328,19 +328,16 @@ class TerrainGridLayer(ValueGridLayer):
                          comment=comment)
         self.terrain_colors = {}
 
-    def get_value_land(self, rc: Hexagon) -> str:
+    def get_value_land(self, rc: Hexagon) -> int:
         return self.get_value_type(rc, 0)
 
-    def get_value_sea(self, rc: Hexagon) -> str:
+    def get_value_sea(self, rc: Hexagon) -> int:
         return self.get_value_type(rc, 1)
 
-    def get_value_air(self, rc: Hexagon) -> str:
+    def get_value_air(self, rc: Hexagon) -> int:
         return self.get_value_type(rc, 2)
 
     def get_value_type(self, rc: Hexagon, type: int) -> int:
-        if type == 1:
-            print(type)
-            return 100
         return self.get_value(rc)[type]
 
 
@@ -395,11 +392,9 @@ class HexGridManager:
         if clipping is None:
             return self.hexagons
 
-        r_min, c_min, r_max, c_max = clipping
-        r_min = min(r_min, r_max)
-        r_max = max(r_min, r_max)
-        c_min = min(c_min, c_max)
-        c_max = max(c_min, c_max)
+        r1, c1, r2, c2 = clipping
+        r_min, r_max = sorted((r1, r2))
+        c_min, c_max = sorted((c1, c2))
 
         selected = [h for h in self.hexagons if (r_min <= h[0] <= r_max and c_min <= h[1] <= c_max)]
 

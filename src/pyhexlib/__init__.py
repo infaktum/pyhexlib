@@ -25,7 +25,7 @@
 import logging
 from typing import Optional, Dict, Any, Tuple
 
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __author__ = "Heiko Sippel"
 
 from .basic import (

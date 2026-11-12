@@ -1,4 +1,3 @@
 include README.md
 include LICENSE
-# include typed marker from src layout
-include src/pyhexlib/py.typed
+include CHANGELOG.md

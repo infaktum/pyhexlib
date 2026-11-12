@@ -10,6 +10,7 @@ from pyhexlib.layers import (
     SimpleImageGridLayer,
     TokenGridLayer,
     PathGridLayer,
+    TerrainGridLayer,
     HexGridManager, )
 from pyhexlib.tokens import SimpleToken
 
@@ -47,6 +48,16 @@ def test_value_grid_layer_set_get():
     grid = HexagonalGrid(hexes)
     layer = ValueGridLayer("v", grid, default_value=0)
     rc = hexes[0]
+
+
+def test_terrain_grid_layer_returns_stored_sea_value(capsys):
+    layer = TerrainGridLayer("terrain", default_value=(1, 2, 3))
+    rc = Hexagon(0, 0)
+    layer.set_value(rc, (10, 20, 30))
+
+    assert layer.get_value_sea(rc) == 20
+    assert layer.get_value_sea(Hexagon(0, 1)) == 2
+    assert capsys.readouterr().out == ""
 
 
 def test_simple_image_grid_and_token_grid():
@@ -159,6 +170,7 @@ def test_hexgridmanager_visible_layers_and_clipping_normalization():
     # clipping normalization: inverted coordinates should still work
     sub = mgr.get_hexagons((1, 1, 0, 0))
     assert isinstance(sub, HexagonalGrid)
+    assert set(sub) == {Hexagon(r, c) for r in range(2) for c in range(2)}
 
     # is_visible for missing layer returns False and set_visible for missing does not raise
     assert mgr.is_visible("doesnotexist") is False
